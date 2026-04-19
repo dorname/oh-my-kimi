@@ -27,7 +27,10 @@ Turn a repeatable workflow from the current session into a reusable OMK skill dr
    - Steps
    - Tool Usage
    - Examples
-4. **Save**: Write to `.kimi/skills/<name>/SKILL.md`
+4. **Save**: Write to a Kimi-discovered skills directory:
+   - `./.kimi/skills/<name>/SKILL.md` for project-local installs
+   - `$XDG_CONFIG_HOME/kimi/skills/<name>/SKILL.md` when XDG config is in use
+   - `~/.kimi/skills/<name>/SKILL.md` for home-directory installs
 5. **Test**: Verify the skill is clear and actionable
 
 ## Tool Usage

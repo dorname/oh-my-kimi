@@ -25,7 +25,10 @@ Extract a learned skill from the current conversation and save it for future reu
    - Step-by-step process
    - Tool usage patterns
    - Examples
-3. **Save**: Write to `.kimi/skills/<name>/SKILL.md` (project-level) or `~/.kimi/skills/<name>/SKILL.md` (user-level)
+3. **Save**: Write to a Kimi-discovered skills directory:
+   - `./.kimi/skills/<name>/SKILL.md` for project-local installs
+   - `$XDG_CONFIG_HOME/kimi/skills/<name>/SKILL.md` when XDG config is in use
+   - `~/.kimi/skills/<name>/SKILL.md` for home-directory installs
 4. **Validate**: Ensure the skill is clear, concise, and actionable
 
 ## Skill Template

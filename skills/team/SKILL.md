@@ -52,7 +52,7 @@ Team execution follows a staged pipeline:
 
 | Stage | Primary Agents | When to Use |
 |-------|---------------|-------------|
-| **team-plan** | `explore`, `planner` | Decompose task, create task graph |
+| **team-plan** | `explore`, `plan` | Decompose task, create task graph |
 | **team-exec** | `executor`, `debugger`, `designer` | Execute subtasks in parallel |
 | **team-verify** | `verifier`, `code-reviewer`, `security-reviewer` | Validate results |
 | **team-fix** | `executor`, `debugger` | Fix defects from verification |

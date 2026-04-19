@@ -8,7 +8,7 @@ triggers:
 
 # HUD
 
-> **Note**: Kimi CLI does not support stdin status bars (OMC HUD's primary mechanism). This skill provides configuration guidance for OMK's alternative status reporting.
+> **Note**: Kimi CLI does not support stdin status bars (the original OMC HUD's primary mechanism). This skill provides configuration guidance for OMK's alternative status reporting.
 
 ## OMK Alternative
 

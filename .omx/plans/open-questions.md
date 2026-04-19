@@ -1,0 +1,3 @@
+- [ ] Confirm whether Kimi CLI 1.36.0 has any officially documented persistent config mechanism for defaulting a custom `--agent-file`; if not, README/install output must stop promising plain `kimi`.
+- [ ] Confirm the exact installed agent-file path the repair should standardize on for global install, project-local install, and `--target-dir` installs.
+- [ ] Smoke-verify that relative subagent `path:` entries in the installed `agent.yaml` resolve correctly from the installed destination, not only from the repo source tree.

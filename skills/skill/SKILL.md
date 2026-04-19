@@ -25,7 +25,7 @@ Manage local OMK/Kimi CLI skills.
 
 1. **Parse command**: Identify which skill management action
 2. **Execute**:
-   - List: `ls ~/.kimi/skills/` and read SKILL.md frontmatter
+   - List: inspect the active Kimi-discovered skills directory (`./.kimi/skills/`, `$XDG_CONFIG_HOME/kimi/skills/`, or `~/.kimi/skills/`) and read SKILL.md frontmatter
    - Search: `Grep` through skill directories
    - Add: Create directory + write template SKILL.md
    - Edit: `ReadFile` then `WriteFile`

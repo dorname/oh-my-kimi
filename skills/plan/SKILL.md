@@ -95,7 +95,7 @@ Plans are saved to `.omk/plans/`. Drafts go to `.omk/drafts/`.
 
 - Use `AskUserQuestion` for preference questions (scope, priority, timeline, risk tolerance)
 - Use `explore` agent to gather codebase facts before asking the user
-- Use `Agent(subagent_type="planner", ...)` for planning validation on large-scope plans
+- Use `Agent(subagent_type="plan", ...)` for planning validation on large-scope plans
 - Use `Agent(subagent_type="analyst", ...)` for requirements analysis
 - Use `Agent(subagent_type="critic", ...)` for plan review in consensus and review modes
 - **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** Always await the Architect result before issuing the Critic Task.

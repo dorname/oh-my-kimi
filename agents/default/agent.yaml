@@ -57,3 +57,27 @@ agent:
     writer:
       path: ./writer.yaml
       description: "Documentation, migration notes, and user guidance."
+    verifier:
+      path: ./verifier.yaml
+      description: "Completion evidence, claim validation, and test adequacy."
+    tracer:
+      path: ./tracer.yaml
+      description: "Evidence-driven causal tracing and competing hypotheses."
+    code-reviewer:
+      path: ./code-reviewer.yaml
+      description: "Comprehensive code review across logic, maintainability, and quality."
+    security-reviewer:
+      path: ./security-reviewer.yaml
+      description: "Security vulnerabilities, trust boundaries, and authn/authz review."
+    test-engineer:
+      path: ./test-engineer.yaml
+      description: "Test strategy, coverage improvements, and flaky-test hardening."
+    document-specialist:
+      path: ./document-specialist.yaml
+      description: "Official documentation lookup and external API reference guidance."
+    code-simplifier:
+      path: ./code-simplifier.yaml
+      description: "Code clarity, simplification, and cleanup passes."
+    scientist:
+      path: ./scientist.yaml
+      description: "Parallel scientific and data-heavy analysis."

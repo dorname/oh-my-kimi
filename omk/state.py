@@ -3,7 +3,7 @@
 OMK State Manager
 
 Unified state file management for OMK skills.
-Replaces OMC's TypeScript State Manager with a Python implementation
+Replaces the original OMC project's TypeScript State Manager with a Python implementation
 that works with Kimi CLI's Shell tool.
 
 Usage from skills:

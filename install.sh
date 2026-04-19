@@ -99,6 +99,18 @@ get_target_dir() {
     fi
 }
 
+get_target_agents_dir() {
+    local target_dir
+    target_dir="$(get_target_dir)"
+    echo "$(dirname "$target_dir")/agents"
+}
+
+get_target_agent_file() {
+    local target_agents_dir
+    target_agents_dir="$(get_target_agents_dir)"
+    echo "$target_agents_dir/agent.yaml"
+}
+
 count_skills() {
     local count=0
     for skill_dir in "$SCRIPT_DIR"/skills/*/; do
@@ -137,7 +149,7 @@ install_skill() {
 
 install_agents() {
     local target_agents
-    target_agents="$target_dir/../agents"
+    target_agents="$(get_target_agents_dir)"
 
     if [[ "$DRY_RUN" -eq 1 ]]; then
         echo -e "\n${BLUE}Would install agents to:${NC} $target_agents"
@@ -173,6 +185,7 @@ main() {
     fi
 
     echo -e "${BLUE}Target directory:${NC} $target_dir"
+    echo -e "${BLUE}Agent directory:${NC} $(get_target_agents_dir)"
     echo -e "${BLUE}Source directory:${NC} $SCRIPT_DIR/skills"
     echo ""
 
@@ -211,17 +224,24 @@ main() {
         echo ""
         echo -e "${BLUE}Installed skills:${NC} $skill_count"
         echo -e "${BLUE}Location:${NC} $target_dir"
+        echo -e "${BLUE}Agent file:${NC} $(get_target_agent_file)"
         echo ""
         echo -e "${YELLOW}Usage:${NC}"
-        echo "  Start a new Kimi CLI session and use skills naturally:"
-        echo "    'autopilot: build a REST API'"
-        echo "    'ralph: refactor the auth module'"
-        echo "    'plan this feature'"
+        echo "  Launch Kimi with the OMK custom root agent:"
+        echo "    kimi --agent-file \"$(get_target_agent_file)\""
+        echo ""
+        echo "  Then use OMK skills naturally inside that session:"
+        echo "    autopilot: build a REST API"
+        echo "    ralph: refactor the auth module"
+        echo "    plan this feature"
         echo ""
         echo -e "${YELLOW}Next steps:${NC}"
         echo "  1. Ensure Kimi CLI is installed and configured"
-        echo "  2. Run 'kimi' to start a session"
-        echo "  3. OMK skills will auto-detect based on your prompts"
+        echo "  2. Start Kimi with the --agent-file command shown above"
+        echo "  3. OMK skills in the installed skills directory will auto-detect based on your prompts"
+        echo ""
+        echo -e "${YELLOW}Compatibility note:${NC}"
+        echo "  Plain 'kimi' does not load the OMK custom root agent by default."
     fi
 }
 

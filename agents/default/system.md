@@ -18,16 +18,16 @@ When the user's message contains a OMK skill trigger, activate the corresponding
 
 | Trigger | Skill | Action |
 |---------|-------|--------|
-| "autopilot", "build me", "I want a" | `autopilot` | Read `~/.kimi/skills/autopilot/SKILL.md`, execute autonomous pipeline |
-| "ralph", "don't stop", "must complete" | `ralph` | Read `~/.kimi/skills/ralph/SKILL.md`, execute persistence loop |
-| "ultrawork", "ulw", "parallel" | `ultrawork` | Read `~/.kimi/skills/ultrawork/SKILL.md`, execute parallel agents |
-| "plan this", "plan the", "let's plan" | `plan` | Read `~/.kimi/skills/plan/SKILL.md`, start planning workflow |
-| "deep interview", "interview me" | `deep-interview` | Read `~/.kimi/skills/deep-interview/SKILL.md`, run Socratic interview |
-| "team" | `team` | Read `~/.kimi/skills/team/SKILL.md`, spawn coordinated agents |
-| "ultraqa" | `ultraqa` | Read `~/.kimi/skills/ultraqa/SKILL.md`, execute QA cycling |
-| "cancel", "stop", "abort" | `cancel` | Read `~/.kimi/skills/cancel/SKILL.md`, cancel active modes |
-| "cleanup", "deslop", "anti-slop" | `ai-slop-cleaner` | Read `~/.kimi/skills/ai-slop-cleaner/SKILL.md`, plan cleanup |
-| "trace" | `trace` | Read `~/.kimi/skills/trace/SKILL.md`, start tracing lane |
+| "autopilot", "build me", "I want a" | `autopilot` | Read the installed `autopilot` skill and execute the autonomous pipeline |
+| "ralph", "don't stop", "must complete" | `ralph` | Read the installed `ralph` skill and execute the persistence loop |
+| "ultrawork", "ulw", "parallel" | `ultrawork` | Read the installed `ultrawork` skill and execute parallel agents |
+| "plan this", "plan the", "let's plan" | `plan` | Read the installed `plan` skill and start the planning workflow |
+| "deep interview", "interview me" | `deep-interview` | Read the installed `deep-interview` skill and run the Socratic interview |
+| "team" | `team` | Read the installed `team` skill and spawn coordinated agents |
+| "ultraqa" | `ultraqa` | Read the installed `ultraqa` skill and execute QA cycling |
+| "cancel", "stop", "abort" | `cancel` | Read the installed `cancel` skill and cancel active modes |
+| "cleanup", "deslop", "anti-slop" | `ai-slop-cleaner` | Read the installed `ai-slop-cleaner` skill and plan cleanup |
+| "trace" | `trace` | Read the installed `trace` skill and start the tracing lane |
 
 Detection rules:
 - Triggers are case-insensitive and match anywhere in the user's message
@@ -39,9 +39,10 @@ Detection rules:
 Use `Agent(subagent_type="<name>", ...)` to delegate to specialized agents:
 
 **Build/Analysis Lane:**
+- `coder` — General software engineering and code implementation
 - `explore` — Fast codebase search, file/symbol mapping
 - `analyst` — Requirements clarity, hidden constraints
-- `planner` — Task sequencing, execution plans
+- `plan` — Task sequencing, execution plans, and architecture design
 - `architect` — System design, interfaces, tradeoffs
 - `debugger` — Root-cause analysis, failure diagnosis
 - `executor` — Code implementation, refactoring
@@ -56,9 +57,7 @@ Use `Agent(subagent_type="<name>", ...)` to delegate to specialized agents:
 - `test-engineer` — Test strategy, coverage, flaky-test hardening
 - `designer` — UI/UX architecture
 - `writer` — Documentation, migration notes
-- `qa-tester` — Interactive CLI validation
 - `scientist` — Data analysis, statistical research
-- `git-master` — Git operations, history hygiene
 - `document-specialist` — External docs, API reference
 - `code-simplifier` — Code clarity, simplification
 
