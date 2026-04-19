@@ -6,6 +6,7 @@
 # Usage:
 #   ./install.sh              # Install to ~/.kimi/skills/
 #   ./install.sh --project    # Install to ./.kimi/skills/ (project-local)
+#   ./install.sh --target-dir /path/to/project  # Install to a specific project directory
 #   ./install.sh --force      # Overwrite existing skills
 #   ./install.sh --dry-run    # Show what would be installed
 
@@ -15,6 +16,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FORCE=0
 DRY_RUN=0
 PROJECT_LOCAL=0
+TARGET_DIR=""
 
 # Colors
 RED='\033[0;31m'
@@ -31,15 +33,17 @@ OMK Installer
 Usage: $0 [OPTIONS]
 
 Options:
-  --project    Install skills to project-local .kimi/skills/ instead of ~/.kimi/skills/
-  --force      Overwrite existing skills without prompting
-  --dry-run    Show what would be installed without making changes
-  --help       Show this help message
+  --project          Install skills to project-local .kimi/skills/ instead of ~/.kimi/skills/
+  --target-dir DIR   Install skills to a specific project directory (DIR/.kimi/skills/)
+  --force            Overwrite existing skills without prompting
+  --dry-run          Show what would be installed without making changes
+  --help             Show this help message
 
 Examples:
-  $0                    # Install globally
-  $0 --project          # Install locally for current project
-  $0 --force            # Reinstall, overwriting existing skills
+  $0                          # Install globally
+  $0 --project                # Install locally for current project
+  $0 --target-dir ~/my-app    # Install to ~/my-app/.kimi/skills/
+  $0 --force                  # Reinstall, overwriting existing skills
 EOF
 }
 
@@ -49,6 +53,15 @@ parse_args() {
             --project)
                 PROJECT_LOCAL=1
                 shift
+                ;;
+            --target-dir)
+                if [[ -z "${2:-}" ]]; then
+                    echo -e "${RED}Error: --target-dir requires a directory argument${NC}"
+                    usage
+                    exit 1
+                fi
+                TARGET_DIR="$2"
+                shift 2
                 ;;
             --force)
                 FORCE=1
@@ -72,7 +85,9 @@ parse_args() {
 }
 
 get_target_dir() {
-    if [[ "$PROJECT_LOCAL" -eq 1 ]]; then
+    if [[ -n "$TARGET_DIR" ]]; then
+        echo "$TARGET_DIR/.kimi/skills"
+    elif [[ "$PROJECT_LOCAL" -eq 1 ]]; then
         echo "$SCRIPT_DIR/.kimi/skills"
     else
         # Check for XDG_CONFIG_HOME first, then fall back to home
