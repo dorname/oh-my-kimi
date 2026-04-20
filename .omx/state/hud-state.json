@@ -1,6 +1,0 @@
-{
-  "last_turn_at": "2026-04-19T11:50:24.732Z",
-  "turn_count": 7,
-  "last_progress_at": "2026-04-19T11:50:24.732Z",
-  "last_agent_output": "1. Verdict: APPROVE\n\nFresh verification evidence strengthens the approval:\n- `./install.sh --dry-run"
-}

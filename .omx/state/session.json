@@ -1,9 +1,0 @@
-{
-  "session_id": "019da595-4494-7df0-8c2c-c84685202e34",
-  "started_at": "2026-04-19T11:52:11.449Z",
-  "cwd": "/home/kyle/oh-my-kimi",
-  "pid": 164503,
-  "platform": "linux",
-  "pid_start_ticks": 11065649,
-  "pid_cmdline": "/root/.nvm/versions/node/v22.22.0/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex"
-}
