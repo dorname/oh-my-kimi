@@ -32,6 +32,7 @@ cd oh-my-kimi
 ./install.sh --no-pip
 
 # 6. Launch OMK on Kimi CLI
+# 注意：以下路径在执行 ./install.sh 后才会生成
 # Global install (default when XDG_CONFIG_HOME is unset)
 kimi --agent-file "$HOME/.kimi/agents/agent.yaml"
 
