@@ -1,0 +1,21 @@
+.omx/
+.omk/
+
+# Python build artifacts
+*.egg-info/
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Installer artifacts (pip/uv wheel cache)
+*.whl
+pip-wheel-metadata/

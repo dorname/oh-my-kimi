@@ -19,7 +19,7 @@ OMK ports the full OMC multi-agent orchestration experience to Kimi CLI. It prov
 git clone https://github.com/your-org/oh-my-kimi.git
 cd oh-my-kimi
 
-# 2. Install skills (global default: ~/.kimi/skills/)
+# 2. Install skills and the omk CLI globally (default: ~/.kimi/skills/ + pip install -e .)
 ./install.sh
 
 # 3. Or install project-locally
@@ -28,7 +28,10 @@ cd oh-my-kimi
 # 4. Or install to a specific project
 ./install.sh --target-dir ~/my-project
 
-# 5. Launch OMK on Kimi CLI
+# 5. Or install only skills (skip the omk Python package)
+./install.sh --no-pip
+
+# 6. Launch OMK on Kimi CLI
 # Global install (default when XDG_CONFIG_HOME is unset)
 kimi --agent-file "$HOME/.kimi/agents/agent.yaml"
 
@@ -38,8 +41,9 @@ kimi --agent-file "$XDG_CONFIG_HOME/kimi/agents/agent.yaml"
 # Project-local install (run from the project root)
 kimi --agent-file ./.kimi/agents/agent.yaml
 
-# 6. Optional: verify helper CLI
-python3 -m omk.state list
+# 7. Verify the omk CLI is available globally
+omk --help
+omk state list
 ```
 
 ### Install Options
@@ -50,6 +54,7 @@ python3 -m omk.state list
 | `--target-dir DIR` | Install to `DIR/.kimi/skills/` |
 | `--force` | Overwrite existing skills |
 | `--dry-run` | Preview what would be installed |
+| `--no-pip` | Skip installing the `omk` Python package globally |
 | `--help` | Show full help |
 
 ### Compatibility Target
@@ -189,17 +194,22 @@ Compatibility target for Kimi CLI `1.36.0`: the public OMK roster is the 18 agen
 OMK includes a Python utility package (`omk/`) for state management and helpers:
 
 ```bash
-# State management
-python3 -m omk.state list                          # List active modes
-python3 -m omk.state read ralph                    # Read ralph state
-python3 -m omk.state write ralph '{"active":true}' # Write state
-python3 -m omk.state clear ralph                   # Clear state
+# State management (global omk CLI or python3 -m)
+omk state list                          # List active modes
+omk state read ralph                    # Read ralph state
+omk state write ralph '{"active":true}' # Write state
+omk state clear ralph                   # Clear state
 
 # Notifications
-python3 -m omk.notifier telegram "Build complete"
-python3 -m omk.notifier discord "Deployment done"
+omk notifier telegram "Build complete"
+omk notifier discord "Deployment done"
 
 # Update check
+omk updater
+
+# Legacy module syntax still works
+python3 -m omk.state list
+python3 -m omk.notifier telegram "msg"
 python3 -m omk.updater
 ```
 

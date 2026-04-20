@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omk"
+version = "0.1.0"
+description = "OMK (Kimi Orchestration & Multi-agent Coordination) — Python utilities for state, notifications, and updates"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+
+[project.scripts]
+omk = "omk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["omk*"]

@@ -17,6 +17,7 @@ FORCE=0
 DRY_RUN=0
 PROJECT_LOCAL=0
 TARGET_DIR=""
+NO_PIP=0
 
 # Colors
 RED='\033[0;31m'
@@ -37,13 +38,15 @@ Options:
   --target-dir DIR   Install skills to a specific project directory (DIR/.kimi/skills/)
   --force            Overwrite existing skills without prompting
   --dry-run          Show what would be installed without making changes
+  --no-pip           Skip installing the omk Python package to the global environment
   --help             Show this help message
 
 Examples:
-  $0                          # Install globally
+  $0                          # Install globally (skills + omk CLI)
   $0 --project                # Install locally for current project
   $0 --target-dir ~/my-app    # Install to ~/my-app/.kimi/skills/
   $0 --force                  # Reinstall, overwriting existing skills
+  $0 --no-pip                 # Install only skills, skip omk CLI package
 EOF
 }
 
@@ -69,6 +72,10 @@ parse_args() {
                 ;;
             --dry-run)
                 DRY_RUN=1
+                shift
+                ;;
+            --no-pip)
+                NO_PIP=1
                 shift
                 ;;
             --help|-h)
@@ -211,6 +218,37 @@ main() {
 
     # Install agent configs
     install_agents
+
+    # Install omk Python package globally if a package manager is available
+    if [[ "$NO_PIP" -eq 0 && "$DRY_RUN" -eq 0 ]]; then
+        local pkg_mgr=""
+        local install_cmd=""
+        if command -v pip3 &>/dev/null || command -v pip &>/dev/null; then
+            pkg_mgr="pip"
+            install_cmd="$(command -v pip3 || command -v pip) install -q -e '$SCRIPT_DIR'"
+        elif command -v uv &>/dev/null; then
+            pkg_mgr="uv"
+            install_cmd="uv pip install --system -q -e '$SCRIPT_DIR'"
+        fi
+
+        if [[ -n "$pkg_mgr" ]]; then
+            echo ""
+            echo -e "${BLUE}Installing omk Python package via ${pkg_mgr}...${NC}"
+            if eval "$install_cmd" 2>/dev/null; then
+                echo -e "  ${GREEN}✓${NC}  omk CLI installed globally"
+                echo -e "  ${GRAY}→${NC}  Run 'omk --help' to verify"
+            else
+                echo -e "  ${YELLOW}⚠${NC}  ${pkg_mgr} install failed (try: pip install -e .)"
+            fi
+        else
+            echo ""
+            echo -e "${YELLOW}Neither pip nor uv found — skipping omk CLI package install${NC}"
+            echo -e "  ${GRAY}→${NC}  Install Python + pip (or uv), then run: pip install -e ."
+        fi
+    elif [[ "$DRY_RUN" -eq 1 && "$NO_PIP" -eq 0 ]]; then
+        echo ""
+        echo -e "${GRAY}→${NC}  Would install omk Python package (pip install -e $SCRIPT_DIR)"
+    fi
 
     echo ""
 
