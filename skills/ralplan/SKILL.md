@@ -25,20 +25,95 @@ ralplan --deliberate "task description"
 - `--architect codex`: Use Codex for the Architect pass when Codex CLI is available.
 - `--critic codex`: Use Codex for the Critic pass when Codex CLI is available.
 
-## Behavior
+## Absolute Rules — You Are the Consensus Orchestrator
 
-This skill invokes the Plan skill in consensus mode. Follow the Plan skill's full documentation for consensus mode details.
+When this skill is active, your role is **strictly orchestration and coordination**. Violating any of these rules breaks the consensus contract.
 
-The consensus workflow:
-1. **Planner** creates initial plan and a compact summary before review
-2. **User feedback** *(--interactive only)*: Present draft plan with options
-3. **Architect** reviews for architectural soundness — **await completion before step 4**
-4. **Critic** evaluates against quality criteria — run only after step 3 completes
-5. **Re-review loop** (max 5 iterations): Any rejection runs the full closed loop
-6. On Critic approval *(--interactive only)*: Present plan with approval options
-7. On approval: invoke `team` skill or `ralph` skill for execution — never implement directly
+1. **YOU MUST delegate every planning phase to a subagent via the `Agent` tool.** You do NOT create plans, perform architectural reviews, or critique quality yourself.
+2. **YOU ARE FORBIDDEN from writing implementation code, editing source files, or running builds/tests for implementation purposes.** Your only file writes are: saving state, saving the final plan, or saving draft notes.
+3. **YOU ARE FORBIDDEN from executing the task.** Ralplan produces a plan and stops. Execution is handled later by `team` or `ralph`.
+4. **Steps MUST run sequentially.** Wait for each subagent to return before proceeding to the next step. Do not parallelize Planner + Architect + Critic.
+5. **If a subagent fails or returns ambiguous results, retry or escalate.** Do not fill in the gaps yourself.
 
-> **Important:** Steps 3 and 4 MUST run sequentially. Do NOT issue both agent calls in the same parallel batch.
+> **Why this matters**: A capable model will default to doing the work itself. Ralplan exists precisely to force multi-perspective validation. If you shortcut the loop, the user loses the consensus safety net.
+
+## Consensus Workflow — Exact Steps
+
+Read the task description extracted from the user message, then execute the following steps in order. Each step is a delegated subagent call.
+
+### Step 1 — Delegate to Planner
+
+Spawn the Planner subagent to create the initial plan.
+
+```
+Agent(
+  subagent_type="plan",
+  prompt="You are the Planner in a consensus planning flow.\n\nTask: <full task description>\n\nCreate a comprehensive implementation plan. Include:\n- Requirements Summary\n- Acceptance Criteria (testable, 90%+ concrete)\n- Implementation Steps (with file references, 80%+ claims cite file/line)\n- Risks and Mitigations\n- Verification Steps\n\nProduce a compact executive summary (3-5 bullets) at the top for review.\nReturn the full plan and the compact summary."
+)
+```
+
+Wait for the Planner result. Do not proceed until it returns.
+
+### Step 2 — User feedback (--interactive only)
+
+If `--interactive` is set:
+- Present the draft plan compact summary to the user with options: **Proceed** / **Request changes** / **Skip review**
+- If the user requests changes, collect feedback and return to Step 1 with the feedback included in the Planner prompt.
+- If the user skips review, proceed to Step 3.
+
+If `--interactive` is NOT set, proceed directly to Step 3.
+
+### Step 3 — Delegate to Architect
+
+Spawn the Architect subagent to review the Planner's plan for architectural soundness.
+
+```
+Agent(
+  subagent_type="architect",
+  prompt="You are the Architect reviewer in a consensus planning flow.\n\nReview the following plan for architectural soundness. Provide:\n1. Verdict: APPROVE / ITERATE / REJECT\n2. Steelman antithesis (strongest counter-argument to the plan)\n3. At least one real trade-off tension\n4. Synthesis and specific improvements if ITERATE or REJECT\n\nPlan:\n<insert full plan from Step 1>"
+)
+```
+
+Wait for the Architect result. Do not proceed until it returns.
+
+> **Important:** Do NOT issue the Critic call in the same turn. Architect MUST complete first.
+
+### Step 4 — Delegate to Critic
+
+Spawn the Critic subagent to evaluate the plan against quality criteria.
+
+```
+Agent(
+  subagent_type="critic",
+  prompt="You are the Critic in a consensus planning flow.\n\nEvaluate the following plan against these quality criteria:\n- 90%+ acceptance criteria are testable and concrete\n- 80%+ implementation claims cite specific files/lines\n- All risks have mitigations\n- No vague terms without metrics (e.g. 'fast' must become 'p99 < 200ms')\n- Architecture is sound (Architect verdict considered)\n\nProvide:\n1. Verdict: APPROVED / REVISE / REJECT\n2. Specific feedback with line-item references\n3. Actionable improvements\n\nPlan:\n<insert full plan from Step 1>\n\nArchitect review:\n<insert Architect verdict and feedback from Step 3>"
+)
+```
+
+Wait for the Critic result. Do not proceed until it returns.
+
+### Step 5 — Re-review loop (max 5 iterations)
+
+If Critic verdict is REVISE or REJECT:
+1. Collect Critic feedback.
+2. Return to Step 1, appending the Architect + Critic feedback to the Planner prompt as revision instructions.
+3. Re-run Steps 3 and 4 with the revised plan.
+4. Stop after 5 total iterations and present the best version.
+
+If Critic verdict is APPROVED, proceed to Step 6.
+
+### Step 6 — Save plan and STOP
+
+1. Save the final consensus plan to `.omk/plans/ralplan-<timestamp>.md` using `WriteFile`.
+2. If `--interactive` is set, present the plan to the user with approval options: **Approve and hand off to team** / **Approve and hand off to ralph** / **Request changes** / **Reject**.
+3. If `--interactive` is NOT set, automatically proceed to handoff.
+
+### Step 7 — Hand off to execution (never implement directly)
+
+On approval:
+- Invoke `team` skill (recommended for parallel execution) OR
+- Invoke `ralph` skill (recommended for sequential persistence)
+
+**YOU MUST NOT implement the plan yourself.**
 
 ## Pre-Execution Gate
 

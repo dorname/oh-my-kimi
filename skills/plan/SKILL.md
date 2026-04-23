@@ -65,14 +65,55 @@ Plan creates comprehensive, actionable work plans through intelligent interactio
 
 ### Consensus Mode (`--consensus` / "ralplan")
 
-1. **Planner** creates initial plan and a compact summary before any Architect review
+> **ORCHESTRATOR MODE — ABSOLUTE CONSTRAINTS**
+> 
+> In consensus mode, the root agent is **read-only and orchestration-only**. You do NOT generate the plan yourself, you do NOT perform architectural review yourself, and you do NOT critique the plan yourself. Every phase MUST be delegated to the designated subagent via the `Agent` tool. You are the coordinator; the subagents are the workers.
+>
+> **FORBIDDEN for root agent in consensus mode:**
+> - Writing or editing implementation code
+> - Running builds, tests, or lint for implementation verification
+> - Creating the plan content directly (must use Planner subagent)
+> - Performing architecture review directly (must use Architect subagent)
+> - Performing quality critique directly (must use Critic subagent)
+>
+> **REQUIRED for root agent in consensus mode:**
+> - Delegate each phase via the Agent tool, setting subagent_type to the appropriate role
+> - Wait for each subagent result before proceeding
+> - Synthesize subagent outputs
+> - Save the final plan to `.omk/plans/`
+> - Hand off execution to `ralph` or `team` — never implement directly
+
+**Exact workflow:**
+
+1. **Delegate to Planner** — Create initial plan and compact summary
+   ```
+   Agent(subagent_type="plan", prompt="You are the Planner in a consensus planning flow.\n\nTask: <task>\n\nCreate a comprehensive implementation plan with: Requirements Summary, Acceptance Criteria (testable), Implementation Steps (with file references), Risks and Mitigations, Verification Steps.\n\nInclude a compact executive summary (3-5 bullets) at the top.")
+   ```
+   Wait for Planner result before proceeding.
+
 2. **User feedback** *(--interactive only)*: Present draft plan with options (Proceed / Request changes / Skip review)
-3. **Architect** reviews for architectural soundness — **await completion before step 4**
-4. **Critic** evaluates against quality criteria — run only after step 3 completes
-5. **Re-review loop** (max 5 iterations): If Critic rejects, collect feedback, revise with Planner, return to Architect, then Critic
-6. **Apply improvements**: Merge all accepted improvements into the plan
-7. On Critic approval *(--interactive only)*: Present plan with approval options (Approve and implement / Request changes / Reject)
-8. On approval: invoke `ralph` skill or `team` skill for execution — never implement directly in the planning agent
+
+3. **Delegate to Architect** — Review for architectural soundness
+   ```
+   Agent(subagent_type="architect", prompt="You are the Architect reviewer.\n\nReview this plan for architectural soundness. Provide verdict APPROVE/ITERATE/REJECT, strongest steelman antithesis, at least one real trade-off tension, and synthesis.\n\nPlan:\n<plan from Step 1>")
+   ```
+   Wait for Architect result before proceeding.
+
+4. **Delegate to Critic** — Evaluate against quality criteria
+   ```
+   Agent(subagent_type="critic", prompt="You are the Critic.\n\nEvaluate this plan against quality criteria: 90%+ testable acceptance criteria, 80%+ claims cite files/lines, all risks have mitigations, no vague terms without metrics.\n\nProvide verdict APPROVED/REVISE/REJECT and specific feedback.\n\nPlan:\n<plan from Step 1>\n\nArchitect review:\n<architect feedback from Step 3>")
+   ```
+   Wait for Critic result before proceeding.
+
+5. **Re-review loop** (max 5 iterations): If Critic rejects, collect feedback, revise with Planner (return to Step 1 with feedback), then Architect, then Critic.
+
+6. **Apply improvements**: Merge all accepted improvements into the plan.
+
+7. On Critic approval *(--interactive only)*: Present plan with approval options (Approve and implement / Request changes / Reject).
+
+8. On approval: invoke `ralph` skill or `team` skill for execution — **never implement directly in the planning agent**.
+
+> **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** Always await the Architect result before issuing the Critic Task.
 
 ### Review Mode (`--review`)
 
