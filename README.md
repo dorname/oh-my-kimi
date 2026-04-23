@@ -81,6 +81,39 @@ deep dive into why the build is failing
 ultraqa the login flow
 ```
 
+## Uninstall
+
+```bash
+# Remove OMK skills, agent configs, and the omk Python package
+./uninstall.sh
+
+# Project-local uninstall
+./uninstall.sh --project
+
+# Uninstall from a specific project
+./uninstall.sh --target-dir ~/my-project
+
+# Preview what would be removed (no changes)
+./uninstall.sh --dry-run
+
+# Skip confirmation prompt
+./uninstall.sh --force
+
+# Keep the .omk/ runtime state directory
+./uninstall.sh --keep-state
+```
+
+### Uninstall Options
+
+| Option | Description |
+|--------|-------------|
+| `--project` | Uninstall from `./.kimi/skills/` (project-local) |
+| `--target-dir DIR` | Uninstall from `DIR/.kimi/skills/` |
+| `--keep-state` | Preserve the `.omk/` runtime state directory |
+| `--force` | Skip confirmation prompt |
+| `--dry-run` | Preview what would be removed |
+| `--help` | Show full help |
+
 ## Architecture
 
 ```
