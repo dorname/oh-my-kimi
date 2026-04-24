@@ -1,0 +1,3 @@
+- [ ] Confirm whether hook stdout for `SubagentStart`/`SubagentStop` is consistently user-visible in the current Kimi TUI, or only model-context-visible.
+- [ ] Decide whether first release should cover the full public OMK role roster or only the highest-signal roles used by consensus workflows (`plan`, `architect`, `critic`, `verifier`, `executor`).
+- [ ] Decide whether OMK should remain snippet-only for Kimi hook config in v1, or add a safe/idempotent config merge helper later.

@@ -1,4 +1,4 @@
-
+.omx/
 .omk/
 
 # Python build artifacts
@@ -19,11 +19,3 @@ ENV/
 # Installer artifacts (pip/uv wheel cache)
 *.whl
 pip-wheel-metadata/
-.codex/*
-!.codex/agents/
-!.codex/agents/**
-!.codex/skills/
-!.codex/skills/**
-.codex/skills/.system/**
-!.codex/prompts/
-!.codex/prompts/**

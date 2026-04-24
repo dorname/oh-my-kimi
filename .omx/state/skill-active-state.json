@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "active": true,
+  "skill": "ralplan",
+  "keyword": "ralplan",
+  "phase": "planning",
+  "activated_at": "2026-04-24T07:46:51.117Z",
+  "updated_at": "2026-04-24T07:46:51.117Z",
+  "source": "keyword-detector",
+  "session_id": "019dbe74-a301-7111-8b91-93be0b584930",
+  "thread_id": "",
+  "turn_id": "019dbe74-a330-77e0-8c72-57b087aa6c05"
+}
