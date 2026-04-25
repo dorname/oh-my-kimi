@@ -1,9 +1,11 @@
 ---
 name: release
-description: Generic release assistant — analyzes repo release rules, then guides the release
-triggers:
-  - "release"
-  - "cut release"
+description: Generic release assistant — analyzes repo release rules, then guides
+  the release
+metadata:
+  triggers:
+  - release
+  - cut release
 ---
 
 # Release

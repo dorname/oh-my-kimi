@@ -1,9 +1,10 @@
 ---
 name: verify
 description: Verify that a change really works before you claim completion
-triggers:
-  - "verify"
-  - "verify that"
+metadata:
+  triggers:
+  - verify
+  - verify that
 ---
 
 # Verify

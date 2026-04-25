@@ -1,10 +1,12 @@
 ---
 name: ask
-description: Process-first advisor routing for Claude, Codex, or Gemini via natural language
-triggers:
-  - "ask"
-  - "ask codex"
-  - "ask gemini"
+description: Process-first advisor routing for Claude, Codex, or Gemini via natural
+  language
+metadata:
+  triggers:
+  - ask
+  - ask codex
+  - ask gemini
 ---
 
 # Ask

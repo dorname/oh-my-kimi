@@ -1,9 +1,11 @@
 ---
 name: skillify
-description: Turn a repeatable workflow from the current session into a reusable OMK skill draft
-triggers:
-  - "skillify"
-  - "make skill"
+description: Turn a repeatable workflow from the current session into a reusable OMK
+  skill draft
+metadata:
+  triggers:
+  - skillify
+  - make skill
 ---
 
 # Skillify

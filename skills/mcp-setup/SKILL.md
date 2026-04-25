@@ -1,9 +1,10 @@
 ---
 name: mcp-setup
 description: Configure external tools and integrations for enhanced agent capabilities
-triggers:
-  - "mcp setup"
-  - "setup tools"
+metadata:
+  triggers:
+  - mcp setup
+  - setup tools
 ---
 
 # MCP Setup

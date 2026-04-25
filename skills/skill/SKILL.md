@@ -1,10 +1,11 @@
 ---
 name: skill
 description: Manage local skills — list, add, remove, search, edit, setup wizard
-triggers:
-  - "skill"
-  - "skills"
-  - "manage skills"
+metadata:
+  triggers:
+  - skill
+  - skills
+  - manage skills
 ---
 
 # Skill Manager

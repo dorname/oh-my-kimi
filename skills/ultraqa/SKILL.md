@@ -1,9 +1,10 @@
 ---
 name: ultraqa
 description: QA cycling workflow — test, verify, fix, repeat until goal met
-triggers:
-  - "ultraqa"
-  - "qa cycle"
+metadata:
+  triggers:
+  - ultraqa
+  - qa cycle
 ---
 
 # UltraQA

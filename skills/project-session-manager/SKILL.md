@@ -1,10 +1,11 @@
 ---
 name: project-session-manager
 description: Worktree-first dev environment manager for issues, PRs, and features
-triggers:
-  - "project session"
-  - "psm"
-  - "worktree"
+metadata:
+  triggers:
+  - project session
+  - psm
+  - worktree
 ---
 
 # Project Session Manager

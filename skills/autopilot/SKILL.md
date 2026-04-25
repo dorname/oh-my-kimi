@@ -1,17 +1,18 @@
 ---
 name: autopilot
 description: Full autonomous execution from idea to working code
-triggers:
-  - "autopilot"
-  - "auto pilot"
-  - "autonomous"
-  - "build me"
-  - "create me"
-  - "make me"
-  - "full auto"
-  - "handle it all"
-  - "I want a"
-  - "I want an"
+metadata:
+  triggers:
+  - autopilot
+  - auto pilot
+  - autonomous
+  - build me
+  - create me
+  - make me
+  - full auto
+  - handle it all
+  - I want a
+  - I want an
 ---
 
 # Autopilot

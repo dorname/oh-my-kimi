@@ -1,9 +1,11 @@
 ---
 name: ralplan
-description: Consensus planning entrypoint that auto-gates vague ralph/autopilot/team requests before execution
-triggers:
-  - "ralplan"
-  - "consensus plan"
+description: Consensus planning entrypoint that auto-gates vague ralph/autopilot/team
+  requests before execution
+metadata:
+  triggers:
+  - ralplan
+  - consensus plan
 ---
 
 # Ralplan

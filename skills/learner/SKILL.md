@@ -1,10 +1,11 @@
 ---
 name: learner
 description: Extract a learned skill from the current conversation
-triggers:
-  - "learner"
-  - "extract skill"
-  - "learn from this"
+metadata:
+  triggers:
+  - learner
+  - extract skill
+  - learn from this
 ---
 
 # Learner

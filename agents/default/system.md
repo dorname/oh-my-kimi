@@ -18,16 +18,41 @@ When the user's message contains a OMK skill trigger, activate the corresponding
 
 | Trigger | Skill | Action |
 |---------|-------|--------|
-| "autopilot", "build me", "I want a" | `autopilot` | Read the installed `autopilot` skill and execute the autonomous pipeline |
-| "ralph", "don't stop", "must complete" | `ralph` | Read the installed `ralph` skill and execute the persistence loop |
+| "autopilot", "auto pilot", "autonomous", "build me", "create me", "make me", "full auto", "handle it all", "I want a", "I want an" | `autopilot` | Read the installed `autopilot` skill and execute the autonomous pipeline |
+| "ralph", "don't stop", "must complete", "finish this", "keep going until done" | `ralph` | Read the installed `ralph` skill and execute the persistence loop |
 | "ultrawork", "ulw", "parallel" | `ultrawork` | Read the installed `ultrawork` skill and execute parallel agents |
-| "plan this", "plan the", "let's plan" | `plan` | Read the installed `plan` skill and start the planning workflow |
-| "deep interview", "interview me" | `deep-interview` | Read the installed `deep-interview` skill and run the Socratic interview |
+| "plan this", "plan the", "let's plan", "plan", "review this plan" | `plan` | Read the installed `plan` skill and start the planning workflow |
+| "deep interview", "interview me", "don't assume", "gather requirements" | `deep-interview` | Read the installed `deep-interview` skill and run the Socratic interview |
+| "deep dive", "deep-dive" | `deep-dive` | Read the installed `deep-dive` skill and run the 2-stage pipeline |
 | "team" | `team` | Read the installed `team` skill and spawn coordinated agents |
-| "ultraqa" | `ultraqa` | Read the installed `ultraqa` skill and execute QA cycling |
+| "ultraqa", "qa cycle" | `ultraqa` | Read the installed `ultraqa` skill and execute QA cycling |
 | "cancel", "stop", "abort" | `cancel` | Read the installed `cancel` skill and cancel active modes |
 | "cleanup", "deslop", "anti-slop" | `ai-slop-cleaner` | Read the installed `ai-slop-cleaner` skill and plan cleanup |
-| "trace" | `trace` | Read the installed `trace` skill and start the tracing lane |
+| "trace", "trace this" | `trace` | Read the installed `trace` skill and start the tracing lane |
+| "ralplan", "consensus plan" | `ralplan` | Read the installed `ralplan` skill and execute consensus planning |
+| "ccg", "tri-model" | `ccg` | Read the installed `ccg` skill and run tri-model orchestration |
+| "sciomk", "scientist team" | `sciomk` | Read the installed `sciomk` skill and spawn parallel scientist agents |
+| "self-improve", "evolve" | `self-improve` | Read the installed `self-improve` skill and run evolutionary improvement |
+| "ask", "ask codex", "ask gemini" | `ask` | Read the installed `ask` skill and route to the appropriate advisor |
+| "configure notifications", "setup notifications" | `configure-notifications` | Read the installed `configure-notifications` skill and guide setup |
+| "debug", "diagnose" | `debug` | Read the installed `debug` skill and diagnose session/repo state |
+| "deepinit", "deep init" | `deepinit` | Read the installed `deepinit` skill and initialize the codebase |
+| "external context", "look up docs", "search docs" | `external-context` | Read the installed `external-context` skill and look up documentation |
+| "hud", "status bar" | `hud` | Read the installed `hud` skill and configure status reporting |
+| "learner", "extract skill", "learn from this" | `learner` | Read the installed `learner` skill and extract a learned skill |
+| "mcp setup", "setup tools" | `mcp-setup` | Read the installed `mcp-setup` skill and configure external tools |
+| "doctor", "omk doctor" | `omk-doctor` | Read the installed `omk-doctor` skill and diagnose installation issues |
+| "omk-teams" | `omk-teams` | Read the installed `omk-teams` skill (deprecated; redirects to `team`) |
+| "project session", "psm", "worktree" | `project-session-manager` | Read the installed `project-session-manager` skill and manage worktrees |
+| "release", "cut release" | `release` | Read the installed `release` skill and guide the release process |
+| "remember", "save this", "remember this" | `remember` | Read the installed `remember` skill and review project knowledge |
+| "setup omk", "omk setup", "install omk" | `setup` | Read the installed `setup` skill and install/refresh OMK components |
+| "skill", "skills", "manage skills" | `skill` | Read the installed `skill` skill and manage local skills |
+| "skillify", "make skill" | `skillify` | Read the installed `skillify` skill and turn a workflow into a skill draft |
+| "verify", "verify that" | `verify` | Read the installed `verify` skill and verify changes before completion |
+| "visual verdict", "compare screenshot" | `visual-verdict` | Read the installed `visual-verdict` skill and run structured visual QA |
+| "wiki", "wiki this", "wiki add", "wiki query" | `wiki` | Read the installed `wiki` skill and manage the markdown knowledge base |
+| "writer memory", "story memory" | `writer-memory` | Read the installed `writer-memory` skill and manage writer memory |
 
 Detection rules:
 - Triggers are case-insensitive and match anywhere in the user's message

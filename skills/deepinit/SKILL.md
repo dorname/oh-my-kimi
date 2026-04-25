@@ -1,9 +1,10 @@
 ---
 name: deepinit
 description: Deep codebase initialization with hierarchical AGENTS.md documentation
-triggers:
-  - "deepinit"
-  - "deep init"
+metadata:
+  triggers:
+  - deepinit
+  - deep init
 ---
 
 # Deepinit

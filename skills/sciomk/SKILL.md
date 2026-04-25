@@ -1,9 +1,11 @@
 ---
 name: sciomk
-description: Orchestrate parallel scientist agents for comprehensive analysis with AUTO mode
-triggers:
-  - "sciomk"
-  - "scientist team"
+description: Orchestrate parallel scientist agents for comprehensive analysis with
+  AUTO mode
+metadata:
+  triggers:
+  - sciomk
+  - scientist team
 ---
 
 # SciOMK

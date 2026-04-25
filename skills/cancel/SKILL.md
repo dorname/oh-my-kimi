@@ -1,10 +1,11 @@
 ---
 name: cancel
 description: Cancel any active OMK mode (autopilot, ralph, ultrawork, ultraqa, team)
-triggers:
-  - "cancel"
-  - "stop"
-  - "abort"
+metadata:
+  triggers:
+  - cancel
+  - stop
+  - abort
 ---
 
 # Cancel

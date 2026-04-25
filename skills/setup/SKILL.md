@@ -1,10 +1,11 @@
 ---
 name: setup
 description: Install or refresh OMK components
-triggers:
-  - "setup omk"
-  - "omk setup"
-  - "install omk"
+metadata:
+  triggers:
+  - setup omk
+  - omk setup
+  - install omk
 ---
 
 # Setup

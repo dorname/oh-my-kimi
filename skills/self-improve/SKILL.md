@@ -1,9 +1,10 @@
 ---
 name: self-improve
 description: Autonomous evolutionary code improvement engine with tournament selection
-triggers:
-  - "self-improve"
-  - "evolve"
+metadata:
+  triggers:
+  - self-improve
+  - evolve
 ---
 
 # Self-Improve

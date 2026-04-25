@@ -1,9 +1,10 @@
 ---
 name: visual-verdict
 description: Structured visual QA verdict for screenshot-to-reference comparisons
-triggers:
-  - "visual verdict"
-  - "compare screenshot"
+metadata:
+  triggers:
+  - visual verdict
+  - compare screenshot
 ---
 
 # Visual Verdict

@@ -1,12 +1,14 @@
 ---
 name: ralph
-description: Self-referential loop until task completion with configurable verification reviewer
-triggers:
-  - "ralph"
-  - "don't stop"
-  - "must complete"
-  - "finish this"
-  - "keep going until done"
+description: Self-referential loop until task completion with configurable verification
+  reviewer
+metadata:
+  triggers:
+  - ralph
+  - don't stop
+  - must complete
+  - finish this
+  - keep going until done
 ---
 
 # Ralph

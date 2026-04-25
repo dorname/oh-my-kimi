@@ -1,9 +1,11 @@
 ---
 name: deep-dive
-description: 2-stage pipeline — trace (causal investigation) → deep-interview (requirements crystallization)
-triggers:
-  - "deep dive"
-  - "deep-dive"
+description: 2-stage pipeline — trace (causal investigation) → deep-interview (requirements
+  crystallization)
+metadata:
+  triggers:
+  - deep dive
+  - deep-dive
 ---
 
 # Deep Dive

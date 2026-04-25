@@ -1,10 +1,11 @@
 ---
 name: ai-slop-cleaner
 description: Clean AI-generated code slop with a regression-safe, deletion-first workflow
-triggers:
-  - "cleanup"
-  - "deslop"
-  - "anti-slop"
+metadata:
+  triggers:
+  - cleanup
+  - deslop
+  - anti-slop
 ---
 
 # AI Slop Cleaner

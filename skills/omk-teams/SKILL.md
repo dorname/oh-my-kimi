@@ -1,8 +1,10 @@
 ---
 name: omk-teams
-description: Deprecated in OMK — use `team` skill instead. Original OMC skill for tmux CLI workers.
-triggers:
-  - "omk-teams"
+description: Deprecated in OMK — use `team` skill instead. Original OMC skill for
+  tmux CLI workers.
+metadata:
+  triggers:
+  - omk-teams
 ---
 
 # OMK Teams (Deprecated in OMK)

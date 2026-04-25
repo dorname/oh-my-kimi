@@ -1,9 +1,11 @@
 ---
 name: debug
-description: Diagnose the current OMK session or repo state using logs, traces, state, and focused reproduction
-triggers:
-  - "debug"
-  - "diagnose"
+description: Diagnose the current OMK session or repo state using logs, traces, state,
+  and focused reproduction
+metadata:
+  triggers:
+  - debug
+  - diagnose
 ---
 
 # Debug

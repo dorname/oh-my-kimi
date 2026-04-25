@@ -1,10 +1,11 @@
 ---
 name: ultrawork
 description: Parallel execution engine for high-throughput task completion
-triggers:
-  - "ultrawork"
-  - "ulw"
-  - "parallel"
+metadata:
+  triggers:
+  - ultrawork
+  - ulw
+  - parallel
 ---
 
 # Ultrawork

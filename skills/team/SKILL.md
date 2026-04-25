@@ -1,8 +1,9 @@
 ---
 name: team
 description: N coordinated agents on shared task list
-triggers:
-  - "team"
+metadata:
+  triggers:
+  - team
 ---
 
 # Team

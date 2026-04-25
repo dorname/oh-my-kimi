@@ -1,9 +1,11 @@
 ---
 name: configure-notifications
-description: Configure notification integrations (Telegram, Discord, Slack) via natural language
-triggers:
-  - "configure notifications"
-  - "setup notifications"
+description: Configure notification integrations (Telegram, Discord, Slack) via natural
+  language
+metadata:
+  triggers:
+  - configure notifications
+  - setup notifications
 ---
 
 # Configure Notifications

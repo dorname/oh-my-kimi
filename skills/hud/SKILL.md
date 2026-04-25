@@ -1,9 +1,11 @@
 ---
 name: hud
-description: Configure HUD display options (deprecated in OMK — Kimi CLI does not support stdin status bars)
-triggers:
-  - "hud"
-  - "status bar"
+description: Configure HUD display options (deprecated in OMK — Kimi CLI does not
+  support stdin status bars)
+metadata:
+  triggers:
+  - hud
+  - status bar
 ---
 
 # HUD

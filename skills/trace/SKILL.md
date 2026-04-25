@@ -1,9 +1,10 @@
 ---
 name: trace
 description: Evidence-driven tracing lane that orchestrates competing tracer hypotheses
-triggers:
-  - "trace"
-  - "trace this"
+metadata:
+  triggers:
+  - trace
+  - trace this
 ---
 
 # Trace

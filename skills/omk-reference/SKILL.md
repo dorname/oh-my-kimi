@@ -1,8 +1,10 @@
 ---
 name: omk-reference
-description: OMK agent catalog, available tools, team pipeline routing, commit protocol, and skills registry
-triggers: []
-user-invocable: false
+description: OMK agent catalog, available tools, team pipeline routing, commit protocol,
+  and skills registry
+metadata:
+  triggers: []
+  user-invocable: false
 ---
 
 # OMK Reference

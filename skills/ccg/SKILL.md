@@ -1,9 +1,11 @@
 ---
 name: ccg
-description: Claude-Codex-Gemini tri-model orchestration via parallel agent calls, then synthesize results
-triggers:
-  - "ccg"
-  - "tri-model"
+description: Claude-Codex-Gemini tri-model orchestration via parallel agent calls,
+  then synthesize results
+metadata:
+  triggers:
+  - ccg
+  - tri-model
 ---
 
 # CCG (Claude-Codex-Gemini)

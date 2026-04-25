@@ -1,10 +1,12 @@
 ---
 name: external-context
-description: Invoke parallel document-specialist agents for external web searches and documentation lookup
-triggers:
-  - "external context"
-  - "look up docs"
-  - "search docs"
+description: Invoke parallel document-specialist agents for external web searches
+  and documentation lookup
+metadata:
+  triggers:
+  - external context
+  - look up docs
+  - search docs
 ---
 
 # External Context

@@ -1,9 +1,10 @@
 ---
 name: omk-doctor
 description: Diagnose and fix OMK installation issues
-triggers:
-  - "doctor"
-  - "omk doctor"
+metadata:
+  triggers:
+  - doctor
+  - omk doctor
 ---
 
 # OMK Doctor

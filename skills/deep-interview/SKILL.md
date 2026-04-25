@@ -1,11 +1,13 @@
 ---
 name: deep-interview
-description: Socratic deep interview with mathematical ambiguity gating before autonomous execution
-triggers:
-  - "deep interview"
-  - "interview me"
-  - "don't assume"
-  - "gather requirements"
+description: Socratic deep interview with mathematical ambiguity gating before autonomous
+  execution
+metadata:
+  triggers:
+  - deep interview
+  - interview me
+  - don't assume
+  - gather requirements
 ---
 
 # Deep Interview

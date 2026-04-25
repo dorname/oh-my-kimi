@@ -1,9 +1,11 @@
 ---
 name: writer-memory
-description: Agentic memory system for writers — track characters, relationships, scenes, and themes
-triggers:
-  - "writer memory"
-  - "story memory"
+description: Agentic memory system for writers — track characters, relationships,
+  scenes, and themes
+metadata:
+  triggers:
+  - writer memory
+  - story memory
 ---
 
 # Writer Memory

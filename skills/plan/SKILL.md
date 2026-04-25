@@ -1,12 +1,13 @@
 ---
 name: plan
 description: Strategic planning with optional interview workflow
-triggers:
-  - "plan this"
-  - "plan the"
-  - "let's plan"
-  - "plan"
-  - "review this plan"
+metadata:
+  triggers:
+  - plan this
+  - plan the
+  - let's plan
+  - plan
+  - review this plan
 ---
 
 # Plan

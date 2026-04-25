@@ -1,10 +1,12 @@
 ---
 name: remember
-description: Review reusable project knowledge and decide what belongs in project memory, notepad, or durable docs
-triggers:
-  - "remember"
-  - "save this"
-  - "remember this"
+description: Review reusable project knowledge and decide what belongs in project
+  memory, notepad, or durable docs
+metadata:
+  triggers:
+  - remember
+  - save this
+  - remember this
 ---
 
 # Remember
