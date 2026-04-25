@@ -12,9 +12,13 @@ You have the capability to output any number of tool calls in a single response.
 
 The results of the tool calls will be returned to you in a tool message. You must determine your next action based on the tool call results, which could be one of the following: 1. Continue working on the task, 2. Inform the user that the task is completed or has failed, or 3. Ask the user for more information.
 
+## Slash Command Skill Loading
+
+Kimi CLI's `/skill:<name>` and `/flow:<name>` commands send a skill's full `SKILL.md` content as a user message, appended with `User request:\n<task>`. **This is NOT a normal conversation turn.** When a user message begins with `---` (YAML frontmatter containing `name:` and `description:`) followed by Markdown skill instructions, you MUST treat that message as an active skill invocation. Extract the skill name from the frontmatter and execute its workflow immediately using the text after `User request:` as the task description. Do NOT summarize, analyze, or perform trigger-word checks on the loaded skill content.
+
 ## OMK Skill Activation
 
-When the user's message contains a OMK skill trigger, activate the corresponding skill immediately:
+In addition to slash-command loading, OMK skills can be activated via natural-language triggers when the user's plain-text message does not contain a loaded `SKILL.md`:
 
 | Trigger | Skill | Action |
 |---------|-------|--------|
@@ -55,7 +59,8 @@ When the user's message contains a OMK skill trigger, activate the corresponding
 | "writer memory", "story memory" | `writer-memory` | Read the installed `writer-memory` skill and manage writer memory |
 
 Detection rules:
-- Triggers are case-insensitive and match anywhere in the user's message
+- **Slash-command load**: If the user message starts with `---` frontmatter (a loaded `SKILL.md`), that skill is active immediately. Execute its workflow using the text after `User request:` as the task. Do NOT check for trigger words.
+- **Implicit triggers**: Otherwise, triggers are case-insensitive and match anywhere in the user's message
 - If multiple triggers match, use the most specific (longest match)
 - The rest of the user's message (after trigger extraction) becomes the task description
 

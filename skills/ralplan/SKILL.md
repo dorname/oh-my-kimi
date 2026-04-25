@@ -10,6 +10,8 @@ metadata:
 
 # Ralplan
 
+> **CRITICAL — EXECUTE IMMEDIATELY**: This file was loaded via `/skill:ralplan` or `/flow:ralplan`. You MUST execute the consensus workflow below RIGHT NOW. Do NOT summarize, analyze, or check trigger words. The user's task description follows the `User request:` line.
+
 Ralplan is a shorthand alias for `plan --consensus`. It triggers iterative planning with Planner, Architect, and Critic agents until consensus is reached, with structured deliberation (short mode by default, deliberate mode for high-risk work).
 
 ## Usage
