@@ -19,6 +19,35 @@ DRY_RUN=0
 PROJECT_LOCAL=0
 TARGET_DIR=""
 KEEP_STATE=0
+# Public agent roster (18 agents + root configs)
+public_agents=(
+    "agent.yaml"
+    "system.md"
+    "coder.yaml"
+    "explore.yaml"
+    "plan.yaml"
+    "architect.yaml"
+    "executor.yaml"
+    "debugger.yaml"
+    "critic.yaml"
+    "analyst.yaml"
+    "designer.yaml"
+    "writer.yaml"
+    "verifier.yaml"
+    "tracer.yaml"
+    "code-reviewer.yaml"
+    "security-reviewer.yaml"
+    "test-engineer.yaml"
+    "document-specialist.yaml"
+    "code-simplifier.yaml"
+    "scientist.yaml"
+)
+
+# Non-public agent files that must NOT be installed
+non_public_agents=(
+    "git-master.yaml"
+    "qa-tester.yaml"
+)
 
 # Colors
 RED='\033[0;31m'
@@ -162,20 +191,16 @@ uninstall_agents() {
     fi
 
     local removed=0
-    for agent_file in "$SCRIPT_DIR"/agents/default/*.{yaml,md}; do
-        if [[ -f "$agent_file" ]]; then
-            local basename_agent
-            basename_agent="$(basename "$agent_file")"
-            local target_file="$target_agents/$basename_agent"
-            if [[ -f "$target_file" ]]; then
-                if [[ "$DRY_RUN" -eq 1 ]]; then
-                    echo -e "  ${GRAY}→${NC}  $basename_agent"
-                else
-                    rm -f "$target_file"
-                    echo -e "  ${GREEN}✓${NC}  Removed $basename_agent"
-                fi
-                removed=$((removed + 1))
+    for agent_file in "${public_agents[@]}"; do
+        local target_file="$target_agents/$agent_file"
+        if [[ -f "$target_file" ]]; then
+            if [[ "$DRY_RUN" -eq 1 ]]; then
+                echo -e "  ${GRAY}→${NC}  $agent_file"
+            else
+                rm -f "$target_file"
+                echo -e "  ${GREEN}✓${NC}  Removed $agent_file"
             fi
+            removed=$((removed + 1))
         fi
     done
 

@@ -22,9 +22,9 @@ Tri-model orchestration: spawn parallel advisor agents, then synthesize results.
 
 1. **Define the question**: Clearly state what needs analysis
 2. **Spawn parallel agents**: Launch 2-3 agents with the same prompt
-   - `Agent(subagent_type="architect", prompt="<question>")`
-   - `Agent(subagent_type="critic", prompt="<question>")`
-   - `Agent(subagent_type="analyst", prompt="<question>")`
+   - `Agent(subagent_type="coder", prompt="You are the Architect reviewer. <question>")`
+   - `Agent(subagent_type="coder", prompt="You are the Critic reviewer. <question>")`
+   - `Agent(subagent_type="coder", prompt="You are the Analyst agent. <question>")`
 3. **Collect responses**: Gather all agent outputs
 4. **Synthesize**: Compare perspectives, identify agreements and disagreements
 5. **Recommend**: Present the synthesized conclusion with confidence level

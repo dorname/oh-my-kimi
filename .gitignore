@@ -1,5 +1,15 @@
 .omx/
 .omk/
+.kimi/
+
+.scripts/__pycache__/
+.scripts/venv/
+.scripts/venv/*
+.scripts/venv/.*
+.scripts/venv/bin/
+.scripts/venv/bin/*
+.scripts/venv/bin/.*
+.scripts/venv/bin/activate
 
 # Python build artifacts
 *.egg-info/

@@ -1,12 +1,12 @@
 # OMK（Kimi 编排与多智能体协调）
 
-> Oh-My-Kimi。为 [Kimi Code CLI](https://github.com/MoonshotAI/kimi-cli) 打造的多智能体编排系统。35+ 工作流技能，18 个公开专家智能体，以及有状态执行。
+> Oh-My-Kimi。为 [Kimi Code CLI](https://github.com/MoonshotAI/kimi-cli) 打造的多智能体编排系统。36 个技能，18 个公开专家智能体，以及有状态执行。
 
 ## 概述
 
 OMK 将完整的 OMC 多智能体编排体验移植到 Kimi CLI。它提供：
 
-- **36 个工作流技能** — autopilot、ralph、ultrawork、team、plan、deep-dive 等
+- **36 个技能** — autopilot、ralph、ultrawork、team、plan、deep-dive 等
 - **18 个公开专家智能体** — coder、plan、architect、executor、debugger、critic、verifier 等
 - **统一的状态管理** — 持久化计划、记事本、项目记忆和知识库
 - **通知集成** — 通过 shell 脚本支持 Telegram、Discord、Slack
@@ -121,7 +121,7 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
                                                            │                    │
                                                            ▼                    ▼
                                                     .kimi/skills/         Agent YAML configs
-                                                    (35+ SKILL.md)        (18 public roles)
+                                                    (36 SKILL.md)        (18 public roles)
                                                            │                    │
                                                            └────────┬───────────┘
                                                                     ▼
@@ -166,6 +166,9 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
 | `skillify` | "skillify" | 将工作流转换为技能草稿 |
 | `configure-notifications` | "configure notifications" | 配置 Telegram、Discord、Slack |
 | `mcp-setup` | "mcp setup" | 配置外部 CLI 工具（ast-grep、Playwright 等） |
+| `deepinit` | "deepinit"、"deep init" | 深度代码库初始化，带分层 AGENTS.md 文档 |
+| `external-context` | "external context"、"look up docs"、"search docs" | 调用并行文档专家智能体进行外部网络搜索和文档查找 |
+| `project-session-manager` | "project session"、"psm"、"worktree" | 以 worktree 优先的开发环境管理器，用于 issues、PRs 和特性开发 |
 
 ### 记忆与知识
 
@@ -176,6 +179,13 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
 | `writer-memory` | "writer-memory" | 写作者智能体记忆 |
 | `remember` | "remember" | 回顾可复用的项目知识 |
 | `omk-reference` | (自动加载) | 智能体目录、工具、流水线路由 |
+
+### 已弃用
+
+| 技能 | 触发词 | 说明 |
+|------|--------|------|
+| `hud` | "hud"、"status bar" | 配置 HUD 显示选项（在 OMK 中已弃用 — Kimi CLI 不支持 stdin 状态栏） |
+| `omk-teams` | "omk-teams" | 在 OMK 中已弃用 — 请改用 `team` 技能。原 OMC 用于 tmux CLI 工作器的技能。 |
 
 完整目录请见 `skills/` 目录。
 

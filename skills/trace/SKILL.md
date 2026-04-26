@@ -41,7 +41,7 @@ Evidence-driven tracing that investigates competing hypotheses to find root caus
 - Use `Shell` for running experiments and reading logs
 - Use `ReadFile` for code inspection
 - Use `Grep` for searching patterns across the codebase
-- Delegate to `Agent(subagent_type="tracer", ...)` for deep causal analysis
+- Delegate to `Agent(subagent_type="coder", ...)` for deep causal analysis
 
 ## Output
 

@@ -50,5 +50,5 @@ Final report saved to `.omk/research/deep-dive-<topic>.md`:
 
 - Use `trace` skill patterns for Stage 1
 - Use `deep-interview` skill patterns for Stage 2
-- Use `Agent(subagent_type="tracer", ...)` for deep causal analysis
-- Use `Agent(subagent_type="analyst", ...)` for requirements analysis
+- Use `Agent(subagent_type="coder", ...)` for deep causal analysis
+- Use `Agent(subagent_type="coder", ...)` for requirements analysis

@@ -29,13 +29,13 @@ Invoke parallel document-specialist agents for external web searches and documen
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="document-specialist", ...)` for official doc lookup
+- Use `Agent(subagent_type="coder", ...)` for official doc lookup
 - Use `SearchWeb` for broad web searches
 - Use `FetchURL` for specific documentation pages
 
 ## Example
 
 ```
-Agent(subagent_type="document-specialist", prompt="Find the official Redis Python client docs. What are the breaking changes in redis-py 5.0?")
-Agent(subagent_type="document-specialist", prompt="Check FastAPI docs for background tasks. What's the recommended pattern?")
+Agent(subagent_type="coder", prompt="You are the Document Specialist agent. Find the official Redis Python client docs. What are the breaking changes in redis-py 5.0?")
+Agent(subagent_type="coder", prompt="You are the Document Specialist agent. Check FastAPI docs for background tasks. What's the recommended pattern?")
 ```

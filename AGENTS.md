@@ -6,7 +6,7 @@
 
 ```
 agents/default/      # Root agent + 18 public specialist subagents
-skills/              # 36 workflow skills (SKILL.md)
+skills/              # 36 skills (SKILL.md)
 omk/                 # Python utilities (state, notifications, updater)
 scripts/             # Shell-based integrations (notify, ast-search, etc.)
 kimi-cli-docs/       # VitePress documentation site (not part of runtime)

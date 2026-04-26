@@ -36,7 +36,7 @@ When `AUTO` is specified, SciOMK automatically:
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="scientist", ...)` for parallel analysis
+- Use `Agent(subagent_type="coder", ...)` for parallel analysis
 - Use `Shell` for data processing and visualization
 - Use `WriteFile` for research report
 

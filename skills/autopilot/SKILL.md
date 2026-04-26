@@ -92,8 +92,8 @@ Implement the plan using parallel agent delegation.
 
 - Delegate to `executor` agents for implementation tasks:
   - Simple tasks: `Agent(subagent_type="coder", prompt="...")`
-  - Standard tasks: `Agent(subagent_type="executor", prompt="...")`
-  - Complex analysis: `Agent(subagent_type="architect", prompt="...")`
+  - Standard tasks: `Agent(subagent_type="coder", prompt="...")`
+  - Complex analysis: `Agent(subagent_type="coder", prompt="...")`
 - Run independent tasks in parallel (fire all independent Agent calls simultaneously)
 - Use `run_in_background=true` for long operations (installs, builds, test suites)
 
@@ -111,9 +111,9 @@ Use Shell to run build/test commands and read output.
 
 Multi-perspective review in parallel.
 
-- `Agent(subagent_type="architect", prompt="Review functional completeness of <changes>")`
-- `Agent(subagent_type="security-reviewer", prompt="Check for vulnerabilities in <changes>")`
-- `Agent(subagent_type="code-reviewer", prompt="Review code quality of <changes>")`
+- `Agent(subagent_type="coder", prompt="You are the Architect reviewer. Review functional completeness of <changes>")`
+- `Agent(subagent_type="coder", prompt="You are the Security Reviewer agent. Check for vulnerabilities in <changes>")`
+- `Agent(subagent_type="coder", prompt="You are the Code Reviewer agent. Review code quality of <changes>")`
 - All must approve; fix and re-validate on rejection
 
 ### Phase 5 - Cleanup
@@ -125,11 +125,11 @@ Delete all state files on successful completion.
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="architect", ...)` for Phase 4 architecture validation
-- Use `Agent(subagent_type="security-reviewer", ...)` for Phase 4 security review
-- Use `Agent(subagent_type="code-reviewer", ...)` for Phase 4 quality review
-- Use `Agent(subagent_type="analyst", ...)` for requirements analysis in Phase 0
-- Use `Agent(subagent_type="critic", ...)` for plan validation in Phase 1
+- Use `Agent(subagent_type="coder", ...)` for Phase 4 architecture validation
+- Use `Agent(subagent_type="coder", ...)` for Phase 4 security review
+- Use `Agent(subagent_type="coder", ...)` for Phase 4 quality review
+- Use `Agent(subagent_type="coder", ...)` for requirements analysis in Phase 0
+- Use `Agent(subagent_type="coder", ...)` for plan validation in Phase 1
 - Use `Shell` for builds, tests, and lint commands
 - Never block on external tools; proceed with available agents if delegation fails
 

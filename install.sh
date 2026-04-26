@@ -18,6 +18,35 @@ DRY_RUN=0
 PROJECT_LOCAL=0
 TARGET_DIR=""
 NO_PIP=0
+# Public agent roster (18 agents + root configs)
+public_agents=(
+    "agent.yaml"
+    "system.md"
+    "coder.yaml"
+    "explore.yaml"
+    "plan.yaml"
+    "architect.yaml"
+    "executor.yaml"
+    "debugger.yaml"
+    "critic.yaml"
+    "analyst.yaml"
+    "designer.yaml"
+    "writer.yaml"
+    "verifier.yaml"
+    "tracer.yaml"
+    "code-reviewer.yaml"
+    "security-reviewer.yaml"
+    "test-engineer.yaml"
+    "document-specialist.yaml"
+    "code-simplifier.yaml"
+    "scientist.yaml"
+)
+
+# Non-public agent files that must NOT be installed
+non_public_agents=(
+    "git-master.yaml"
+    "qa-tester.yaml"
+)
 
 # Colors
 RED='\033[0;31m'
@@ -158,21 +187,26 @@ install_agents() {
     local target_agents
     target_agents="$(get_target_agents_dir)"
 
-    if [[ "$DRY_RUN" -eq 1 ]]; then
-        echo -e "\n${BLUE}Would install agents to:${NC} $target_agents"
-        return 0
-    fi
-
     mkdir -p "$target_agents"
 
     if [[ -d "$SCRIPT_DIR/agents" ]]; then
-        # Copy agent configs
-        for agent_file in "$SCRIPT_DIR"/agents/default/*.yaml "$SCRIPT_DIR"/agents/default/*.md; do
-            if [[ -f "$agent_file" ]]; then
-                cp "$agent_file" "$target_agents/"
+        if [[ "$DRY_RUN" -eq 1 ]]; then
+            echo -e "\n${BLUE}Would install agents to:${NC} $target_agents"
+        fi
+        # Copy agent configs (explicit roster)
+        for agent_file in "${public_agents[@]}"; do
+            local src="$SCRIPT_DIR/agents/default/$agent_file"
+            if [[ -f "$src" ]]; then
+                if [[ "$DRY_RUN" -eq 1 ]]; then
+                    echo -e "  ${GRAY}→${NC}  $agent_file"
+                else
+                    cp "$src" "$target_agents/"
+                fi
             fi
         done
-        echo -e "\n${GREEN}✓${NC} Agent configs installed"
+        if [[ "$DRY_RUN" -ne 1 ]]; then
+            echo -e "\n${GREEN}✓${NC} Agent configs installed"
+        fi
     fi
 }
 

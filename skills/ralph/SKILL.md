@@ -85,8 +85,8 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
 3. **Implement the current story**:
    - Delegate to specialist agents:
      - Simple lookups: `Agent(subagent_type="explore", prompt="...")`
-     - Standard work: `Agent(subagent_type="executor", prompt="...")`
-     - Complex analysis: `Agent(subagent_type="architect", prompt="...")`
+     - Standard work: `Agent(subagent_type="coder", prompt="...")`
+     - Complex analysis: `Agent(subagent_type="coder", prompt="...")`
    - If during implementation you discover sub-tasks, add them as new stories to `prd.json`
    - Run long operations in background: Builds, installs, test suites use `run_in_background: true`
 
@@ -106,9 +106,9 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
    c. If ALL complete, proceed to Step 7 (reviewer verification)
 
 7. **Reviewer verification** (tiered, against acceptance criteria):
-   - <5 files, <100 lines with full tests: delegate to `Agent(subagent_type="verifier", prompt="...")`
-   - Standard changes: delegate to `Agent(subagent_type="critic", prompt="...")`
-   - >20 files or security/architectural changes: delegate to `Agent(subagent_type="architect", prompt="...")`
+   - <5 files, <100 lines with full tests: delegate to `Agent(subagent_type="coder", prompt="...")`
+   - Standard changes: delegate to `Agent(subagent_type="coder", prompt="...")`
+   - >20 files or security/architectural changes: delegate to `Agent(subagent_type="coder", prompt="...")`
    - Ralph floor: always at least STANDARD verification, even for small changes
    - The selected reviewer verifies against the SPECIFIC acceptance criteria from prd.json
    - **On APPROVAL: immediately proceed to Step 7.5. Do NOT pause to report the verdict to the user.**
@@ -128,9 +128,9 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="architect", ...)` for architect verification when changes are security-sensitive or architectural
-- Use `Agent(subagent_type="critic", ...)` when `--critic=critic`
-- Use `Agent(subagent_type="verifier", ...)` for lightweight verification of small changes
+- Use `Agent(subagent_type="coder", ...)` for architect verification when changes are security-sensitive or architectural
+- Use `Agent(subagent_type="coder", ...)` when `--critic=critic`
+- Use `Agent(subagent_type="coder", ...)` for lightweight verification of small changes
 - Skip architect consultation for simple feature additions, well-tested changes, or time-critical verification
 - Proceed with verification alone — never block on unavailable tools
 - Use ReadFile/WriteFile for prd.json and progress.md

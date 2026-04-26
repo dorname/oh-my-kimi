@@ -36,8 +36,8 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 1. **Classify tasks by independence**: Identify which tasks can run in parallel vs which have dependencies
 2. **Route to correct complexity**:
    - Simple lookups/definitions: `Agent(subagent_type="explore", prompt="...")`
-   - Standard implementation: `Agent(subagent_type="executor", prompt="...")`
-   - Complex analysis/refactoring: `Agent(subagent_type="architect", prompt="...")`
+   - Standard implementation: `Agent(subagent_type="coder", prompt="...")`
+   - Complex analysis/refactoring: `Agent(subagent_type="coder", prompt="...")`
 3. **Fire independent tasks simultaneously**: Launch all parallel-safe tasks at once
 4. **Run dependent tasks sequentially**: Wait for prerequisites before launching dependent work
 5. **Background long operations**: Builds, installs, and test suites use `run_in_background=true`
@@ -48,9 +48,9 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="executor", ...)` for implementation tasks
+- Use `Agent(subagent_type="coder", ...)` for implementation tasks
 - Use `Agent(subagent_type="explore", ...)` for simple lookups and codebase search
-- Use `Agent(subagent_type="architect", ...)` for complex analysis and refactoring
+- Use `Agent(subagent_type="coder", ...)` for complex analysis and refactoring
 - Use `run_in_background=true` for package installs, builds, and test suites
 - Use foreground execution for quick status checks and file operations
 
@@ -59,13 +59,13 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 **Good** — Three independent tasks fired simultaneously:
 ```
 Agent(subagent_type="coder", prompt="Add missing type export for Config interface")
-Agent(subagent_type="executor", prompt="Implement the /api/users endpoint with validation")
-Agent(subagent_type="executor", prompt="Add integration tests for the auth middleware")
+Agent(subagent_type="coder", prompt="You are the Executor agent. Implement the /api/users endpoint with validation")
+Agent(subagent_type="coder", prompt="You are the Executor agent. Add integration tests for the auth middleware")
 ```
 
 **Good** — Background execution:
 ```
-Agent(subagent_type="executor", prompt="npm install && npm run build", run_in_background=true)
+Agent(subagent_type="coder", prompt="You are the Executor agent. Npm install && npm run build", run_in_background=true)
 Agent(subagent_type="coder", prompt="Update the README with new API endpoints")
 ```
 

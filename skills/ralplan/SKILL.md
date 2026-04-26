@@ -73,7 +73,7 @@ Spawn the Architect subagent to review the Planner's plan for architectural soun
 
 ```
 Agent(
-  subagent_type="architect",
+  subagent_type="coder",
   prompt="You are the Architect reviewer in a consensus planning flow.\n\nReview the following plan for architectural soundness. Provide:\n1. Verdict: APPROVE / ITERATE / REJECT\n2. Steelman antithesis (strongest counter-argument to the plan)\n3. At least one real trade-off tension\n4. Synthesis and specific improvements if ITERATE or REJECT\n\nPlan:\n<insert full plan from Step 1>"
 )
 ```
@@ -88,7 +88,7 @@ Spawn the Critic subagent to evaluate the plan against quality criteria.
 
 ```
 Agent(
-  subagent_type="critic",
+  subagent_type="coder",
   prompt="You are the Critic in a consensus planning flow.\n\nEvaluate the following plan against these quality criteria:\n- 90%+ acceptance criteria are testable and concrete\n- 80%+ implementation claims cite specific files/lines\n- All risks have mitigations\n- No vague terms without metrics (e.g. 'fast' must become 'p99 < 200ms')\n- Architecture is sound (Architect verdict considered)\n\nProvide:\n1. Verdict: APPROVED / REVISE / REJECT\n2. Specific feedback with line-item references\n3. Actionable improvements\n\nPlan:\n<insert full plan from Step 1>\n\nArchitect review:\n<insert Architect verdict and feedback from Step 3>"
 )
 ```

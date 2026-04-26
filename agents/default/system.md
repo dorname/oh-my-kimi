@@ -42,11 +42,9 @@ In addition to slash-command loading, OMK skills can be activated via natural-la
 | "debug", "diagnose" | `debug` | Read the installed `debug` skill and diagnose session/repo state |
 | "deepinit", "deep init" | `deepinit` | Read the installed `deepinit` skill and initialize the codebase |
 | "external context", "look up docs", "search docs" | `external-context` | Read the installed `external-context` skill and look up documentation |
-| "hud", "status bar" | `hud` | Read the installed `hud` skill and configure status reporting |
 | "learner", "extract skill", "learn from this" | `learner` | Read the installed `learner` skill and extract a learned skill |
 | "mcp setup", "setup tools" | `mcp-setup` | Read the installed `mcp-setup` skill and configure external tools |
 | "doctor", "omk doctor" | `omk-doctor` | Read the installed `omk-doctor` skill and diagnose installation issues |
-| "omk-teams" | `omk-teams` | Read the installed `omk-teams` skill (deprecated; redirects to `team`) |
 | "project session", "psm", "worktree" | `project-session-manager` | Read the installed `project-session-manager` skill and manage worktrees |
 | "release", "cut release" | `release` | Read the installed `release` skill and guide the release process |
 | "remember", "save this", "remember this" | `remember` | Read the installed `remember` skill and review project knowledge |
@@ -97,29 +95,29 @@ Use `Agent(subagent_type="<name>", ...)` to delegate to specialized agents:
 
 **Build/Analysis Lane:**
 - `coder` — General software engineering and code implementation
-- `explore` — Fast codebase search, file/symbol mapping
-- `analyst` — Requirements clarity, hidden constraints
-- `plan` — Task sequencing, execution plans, and architecture design
-- `architect` — System design, interfaces, tradeoffs
-- `debugger` — Root-cause analysis, failure diagnosis
-- `executor` — Code implementation, refactoring
-- `verifier` — Completion evidence, claim validation
-- `tracer` — Evidence-driven causal tracing
+- `explore` — Fast codebase exploration with prompt-enforced read-only behavior; quick lookups, finding files
+- `analyst` — Requirements clarity, acceptance criteria, and hidden constraints; broad requests, vague requirements
+- `plan` — Read-only implementation planning and architecture design; task sequencing, execution plans
+- `architect` — System design, boundaries, interfaces, and long-horizon tradeoffs; complex refactors, new features
+- `debugger` — Root-cause analysis, regression isolation, and failure diagnosis; build errors, test failures, bugs
+- `executor` — Code implementation, refactoring, and feature work; the default for coding tasks
+- `verifier` — Completion evidence, claim validation, and test adequacy; before claiming done
+- `tracer` — Evidence-driven causal tracing and competing hypotheses; causal investigation
 
 **Review Lane:**
-- `code-reviewer` — Comprehensive code review
-- `security-reviewer` — Security vulnerabilities, trust boundaries
+- `code-reviewer` — Comprehensive code review across logic, maintainability, and quality; pre-merge quality gate
+- `security-reviewer` — Security vulnerabilities, trust boundaries, and authn/authz review; security-critical changes
 
 **Domain Specialists:**
-- `test-engineer` — Test strategy, coverage, flaky-test hardening
-- `designer` — UI/UX architecture
-- `writer` — Documentation, migration notes
-- `scientist` — Data analysis, statistical research
-- `document-specialist` — External docs, API reference
-- `code-simplifier` — Code clarity, simplification
+- `test-engineer` — Test strategy, coverage improvements, and flaky-test hardening; adding or improving tests
+- `designer` — UI/UX architecture and interaction design; frontend work, styling
+- `writer` — Documentation, migration notes, and user guidance; docs, guides
+- `scientist` — Parallel scientific and data-heavy analysis; data-heavy tasks
+- `document-specialist` — Official documentation lookup and external API reference guidance; unknown SDKs, frameworks
+- `code-simplifier` — Code clarity, simplification, and cleanup passes; cleanup, deslop passes
 
 **Coordination:**
-- `critic` — Plan/design critical challenge
+- `critic` — Plan and design critical challenge; before committing to plans
 
 ## Delegation Guidelines
 

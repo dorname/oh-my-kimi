@@ -36,9 +36,9 @@ User: "team 3:executor fix all TypeScript errors"
         +-- Analyze & decompose task into subtasks
         |       -> explore/architect produces subtask list
         |
-        +-- Agent(subagent_type="executor", prompt="subtask 1") [parallel]
-        +-- Agent(subagent_type="executor", prompt="subtask 2") [parallel]
-        +-- Agent(subagent_type="executor", prompt="subtask 3") [parallel]
+        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 1") [parallel]
+        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 2") [parallel]
+        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 3") [parallel]
         |
         +-- Collect results, verify, report
 ```
@@ -88,9 +88,9 @@ Write task list to `.omk/state/team-tasks.json`.
 Launch all parallel-safe subtasks simultaneously using `Agent` tool:
 
 ```
-Agent(subagent_type="executor", prompt="Fix type errors in src/auth/login.ts: ...")
-Agent(subagent_type="executor", prompt="Fix type errors in src/api/users.ts: ...")
-Agent(subagent_type="executor", prompt="Fix type errors in src/utils/helpers.ts: ...")
+Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/auth/login.ts: ...")
+Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/api/users.ts: ...")
+Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/utils/helpers.ts: ...")
 ```
 
 **Key rules:**

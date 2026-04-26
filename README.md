@@ -1,12 +1,12 @@
 # OMK (Kimi Orchestration & Multi-agent Coordination)
 
-> Oh-My-Kimi. Multi-agent orchestration for [Kimi Code CLI](https://github.com/MoonshotAI/kimi-cli). 35+ workflow skills, 18 public specialist agents, and stateful execution.
+> Oh-My-Kimi. Multi-agent orchestration for [Kimi Code CLI](https://github.com/MoonshotAI/kimi-cli). 36 skills, 18 public specialist agents, and stateful execution.
 
 ## Overview
 
 OMK ports the full OMC multi-agent orchestration experience to Kimi CLI. It provides:
 
-- **36 workflow skills** — autopilot, ralph, ultrawork, team, plan, deep-dive, and more
+- **36 skills** — autopilot, ralph, ultrawork, team, plan, deep-dive, and more
 - **18 public specialist agents** — coder, plan, architect, executor, debugger, critic, verifier, and more
 - **Unified state management** — persistent plans, notepads, project memory, and wikis
 - **Notification integrations** — Telegram, Discord, Slack via shell scripts
@@ -121,7 +121,7 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
                                                            │                    │
                                                            ▼                    ▼
                                                     .kimi/skills/         Agent YAML configs
-                                                    (35+ SKILL.md)        (18 public roles)
+                                                    (36 SKILL.md)        (18 public roles)
                                                            │                    │
                                                            └────────┬───────────┘
                                                                     ▼
@@ -136,15 +136,15 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
 | Skill | Trigger | Description |
 |-------|---------|-------------|
 | `autopilot` | "autopilot", "build me", "I want a" | Full autonomous execution from idea to working code |
-| `ralph` | "ralph", "don't stop", "must complete" | Self-referential persistence loop with PRD-driven verification |
-| `ultrawork` | "ultrawork", "ulw", "parallel" | Maximum parallelism with parallel agent orchestration |
+| `ralph` | "ralph", "don't stop", "must complete" | Self-referential loop until task completion with configurable verification reviewer |
+| `ultrawork` | "ultrawork", "ulw", "parallel" | Parallel execution engine for high-throughput task completion |
 | `team` | "team" | N coordinated agents on shared task list |
-| `plan` | "plan this", "plan the", "let's plan" | Strategic planning with optional interview |
-| `ralplan` | "ralplan", "consensus plan" | Iterative consensus planning with deliberation |
+| `plan` | Read-only implementation planning and architecture design; task sequencing, execution plans, and risk flags | Strategic planning with optional interview |
+| `ralplan` | "ralplan", "consensus plan" | Consensus planning entrypoint that auto-gates vague ralph/autopilot/team requests before execution |
 | `deep-interview` | "deep interview", "interview me" | Socratic deep interview with ambiguity gating |
 | `deep-dive` | "deep dive" | 2-stage pipeline: trace → deep-interview |
 | `ultraqa` | "ultraqa" | QA cycling — test, verify, fix, repeat |
-| `ai-slop-cleaner` | "cleanup", "deslop", "anti-slop" | Regression-safe cleanup workflow |
+| `ai-slop-cleaner` | "cleanup", "deslop", "anti-slop" | Clean AI-generated code slop with a regression-safe, deletion-first workflow |
 | `visual-verdict` | "visual verdict" | Structured visual QA for screenshot comparisons |
 | `trace` | "trace" | Evidence-driven tracing with competing hypotheses |
 | `ccg` | "ccg" | Claude-Codex-Gemini tri-model orchestration |
@@ -155,17 +155,20 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
 
 | Skill | Trigger | Description |
 |-------|---------|-------------|
-| `cancel` | "cancel", "stop", "abort" | Cancel active execution modes |
-| `ask` | "ask" | Provider advisor routing (Claude, Codex, Gemini) |
+| `cancel` | "cancel", "stop", "abort" | Cancel any active OMK mode |
+| `ask` | "ask" | Process-first advisor routing for Claude, Codex, or Gemini via natural language |
 | `setup` | "setup" | Install or refresh OMK components |
-| `omk-doctor` | "doctor" | Diagnose installation issues |
+| `omk-doctor` | "doctor" | Diagnose and fix OMK installation issues |
 | `verify` | "verify" | Verify that a change really works |
 | `debug` | "debug" | Diagnose current session or repo state |
 | `release` | "release" | Generic release assistant |
 | `skill` | "skill" | Manage local skills |
-| `skillify` | "skillify" | Turn a workflow into a skill draft |
+| `skillify` | "skillify" | Turn a repeatable workflow from the current session into a reusable OMK skill draft |
 | `configure-notifications` | "configure notifications" | Configure Telegram, Discord, Slack |
-| `mcp-setup` | "mcp setup" | Configure external CLI tools (ast-grep, Playwright, etc.) |
+| `mcp-setup` | "mcp setup" | Configure external tools and integrations for enhanced agent capabilities |
+| `deepinit` | "deepinit", "deep init" | Deep codebase initialization with hierarchical AGENTS.md documentation |
+| `external-context` | "external context", "look up docs", "search docs" | Invoke parallel document-specialist agents for external web searches and documentation lookup |
+| `project-session-manager` | "project session", "psm", "worktree" | Worktree-first dev environment manager for issues, PRs, and features |
 
 ### Memory & Knowledge
 
@@ -173,9 +176,16 @@ User Input → kimi --agent-file .kimi/agents/agent.yaml → Skill Detection →
 |-------|---------|-------------|
 | `learner` | "learner" | Extract a learned skill from conversation |
 | `wiki` | "wiki" | Persistent markdown knowledge base |
-| `writer-memory` | "writer-memory" | Agentic memory for writers |
+| `writer-memory` | "writer-memory" | Agentic memory system for writers — track characters, relationships, scenes, and themes |
 | `remember` | "remember" | Review reusable project knowledge |
-| `omk-reference` | (auto-load) | Agent catalog, tools, pipeline routing |
+| `omk-reference` | (auto-load) | OMK agent catalog, available tools, team pipeline routing, commit protocol, and skills registry |
+
+### Deprecated
+
+| Skill | Trigger | Description |
+|-------|---------|-------------|
+| `hud` | "hud", "status bar" | Configure HUD display options (deprecated in OMK — Kimi CLI does not support stdin status bars) |
+| `omk-teams` | "omk-teams" | Deprecated in OMK — use `team` skill instead. Original OMC skill for tmux CLI workers. |
 
 See `skills/` for the complete catalog.
 
@@ -188,32 +198,32 @@ Invoke via `Agent(subagent_type="<name>", ...)`.
 | Agent | Description | When to Use |
 |-------|-------------|-------------|
 | `coder` | General software engineering tasks | Small or mixed implementation work |
-| `explore` | Fast codebase search, file/symbol mapping | Quick lookups, finding files, understanding structure |
+| `explore` | Fast codebase exploration with prompt-enforced read-only behavior; quick search and file/symbol mapping | Quick lookups, finding files, understanding structure |
 | `analyst` | Requirements clarity, acceptance criteria, hidden constraints | Broad requests, vague requirements |
-| `plan` | Task sequencing, execution plans, risk flags | Before multi-file implementations |
+| `plan` | Read-only implementation planning and architecture design; task sequencing, execution plans, and risk flags | Before multi-file implementations |
 | `architect` | System design, boundaries, interfaces, long-horizon tradeoffs | Complex refactors, new features |
 | `debugger` | Root-cause analysis, regression isolation, failure diagnosis | Build errors, test failures, bugs |
 | `executor` | Code implementation, refactoring, feature work | The default for coding tasks |
 | `verifier` | Completion evidence, claim validation, test adequacy | Before claiming done |
-| `tracer` | Evidence-driven tracing, competing hypotheses | Causal investigation |
+| `tracer` | Evidence-driven causal tracing and competing hypotheses; complex bugs and incidents | Causal investigation |
 
 ### Review Lane
 
 | Agent | Description | When to Use |
 |-------|-------------|-------------|
-| `code-reviewer` | Comprehensive review — logic, maintainability, anti-patterns | Pre-merge quality gate |
-| `security-reviewer` | Vulnerabilities, trust boundaries, authn/authz | Security-critical changes |
+| `code-reviewer` | Comprehensive code review across logic, maintainability, and quality; pre-merge quality gate | Pre-merge quality gate |
+| `security-reviewer` | Security vulnerabilities, trust boundaries, and authn/authz review; security-critical changes | Security-critical changes |
 
 ### Domain Specialists
 
 | Agent | Description | When to Use |
 |-------|-------------|-------------|
-| `test-engineer` | Test strategy, coverage, flaky-test hardening | Adding or improving tests |
-| `designer` | UI/UX architecture, interaction design | Frontend work, styling |
-| `writer` | Docs, migration notes, user guidance | Documentation tasks |
-| `document-specialist` | External docs, API/SDK reference lookup | Unknown SDKs, frameworks |
+| `test-engineer` | Test strategy, coverage improvements, and flaky-test hardening; adding or improving tests | Adding or improving tests |
+| `designer` | UI/UX architecture and interaction design; frontend work, styling | Frontend work, styling |
+| `writer` | Documentation, migration notes, and user guidance; docs, guides | Documentation tasks |
+| `document-specialist` | Official documentation lookup and external API reference guidance; unknown SDKs, frameworks | Unknown SDKs, frameworks |
 | `code-simplifier` | Code clarity, simplification, maintainability | Cleanup, deslop passes |
-| `scientist` | Data analysis, statistical research | Data-heavy tasks |
+| `scientist` | Parallel scientific and data-heavy analysis; data-heavy tasks | Data-heavy tasks |
 
 ### Coordination
 
@@ -333,10 +343,23 @@ Use the `mcp-setup` skill to configure these.
 
 For Kimi CLI `1.36.0`, the minimum compatibility proof is:
 
-1. Install OMK.
-2. Launch Kimi with `--agent-file`.
-3. Prove the custom root agent is active with a custom-only subagent smoke prompt such as `verifier`.
-4. Run the contract check script to confirm docs, installer messaging, root registry, and skill references are aligned.
+1. **Install OMK** (`./install.sh` or `./install.sh --project`).
+2. **Run contract checks**:
+   ```bash
+   python3 scripts/check-agent-contract.py   # registry, docs, taxonomy, YAML validity
+   python3 tests/test_check_agent_contract.py # unit tests for extractors
+   ```
+3. **Run smoke test** (no Kimi CLI required for static checks):
+   ```bash
+   ./scripts/smoke-test.sh          # project-local
+   ./scripts/smoke-test.sh --global # global install
+   ```
+4. **Launch Kimi with `--agent-file`**:
+   ```bash
+   kimi --agent-file .kimi/agents/agent.yaml
+   ```
+5. **Prove the custom root agent is active** with a custom-only subagent smoke prompt such as `verifier`.
+6. **Trigger a skill** (e.g. `autopilot: say hello`) to confirm skills are discovered and loaded.
 
 ## Contributing
 
