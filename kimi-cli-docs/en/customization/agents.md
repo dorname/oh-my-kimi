@@ -202,7 +202,7 @@ The following are all built-in tools in Kimi Code CLI.
 ### `Shell`
 
 - **Path**: `kimi_cli.tools.shell:Shell`
-- **Description**: Execute shell commands. Requires user approval. Uses the appropriate shell for the OS (bash/zsh on Unix, PowerShell on Windows).
+- **Description**: Execute shell commands. Requires user approval. Uses the configured shell for the OS (bash/sh on Unix-like platforms, Git Bash `bash.exe` on Windows).
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -332,7 +332,7 @@ When `run_in_background=true`, the command is launched as a background task and 
 ### `EnterPlanMode`
 
 - **Path**: `kimi_cli.tools.plan.enter:EnterPlanMode`
-- **Description**: Request to enter plan mode. After calling, an approval request is presented to the user, who can approve or reject entering plan mode. In YOLO mode, this is only used when the user explicitly requests planning or when there is significant architectural ambiguity. See [Plan mode](../guides/interaction.md#plan-mode).
+- **Description**: Request to enter plan mode. After calling, an approval request is presented to the user unless the session is in YOLO or AFK mode; YOLO auto-approves entering plan mode, but `ExitPlanMode` still presents the final plan for user approval. Use this only when the user explicitly requests planning or when there is significant architectural ambiguity. See [Plan mode](../guides/interaction.md#plan-mode).
 
 This tool takes no parameters.
 

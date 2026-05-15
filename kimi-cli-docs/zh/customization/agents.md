@@ -202,7 +202,7 @@ agent:
 ### `Shell`
 
 - **路径**：`kimi_cli.tools.shell:Shell`
-- **描述**：执行 Shell 命令。需要用户审批。根据操作系统使用对应的 Shell（Unix 使用 bash/zsh，Windows 使用 PowerShell）。
+- **描述**：执行 Shell 命令。需要用户审批。根据操作系统使用配置的 Shell（类 Unix 平台使用 bash/sh，Windows 使用 Git Bash `bash.exe`）。
 
 | 参数 | 类型 | 说明 |
 |------|------|------|
@@ -332,7 +332,7 @@ agent:
 ### `EnterPlanMode`
 
 - **路径**：`kimi_cli.tools.plan.enter:EnterPlanMode`
-- **描述**：请求进入 Plan 模式。调用后会向用户展示审批请求，用户可以选择同意或拒绝进入 Plan 模式。在 YOLO 模式下，仅在用户明确要求规划或存在重大架构歧义时使用。详见 [Plan 模式](../guides/interaction.md#plan-模式)。
+- **描述**：请求进入 Plan 模式。调用后通常会向用户展示审批请求；如果会话处于 YOLO 或 AFK 模式则会自动批准进入。YOLO 只自动批准进入 Plan 模式，`ExitPlanMode` 仍会把最终方案展示给用户审批。仅在用户明确要求规划或存在重大架构歧义时使用。详见 [Plan 模式](../guides/interaction.md#plan-模式)。
 
 此工具不接受参数。
 
