@@ -4,9 +4,9 @@ description: Process-first advisor routing for Claude, Codex, or Gemini via natu
   language
 metadata:
   triggers:
-  - ask
   - ask codex
   - ask gemini
+  - ask claude
 ---
 
 # Ask

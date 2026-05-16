@@ -52,7 +52,8 @@ Spawn the Planner subagent to create the initial plan.
 ```
 Agent(
   subagent_type="plan",
-  prompt="You are the Planner in a consensus planning flow.\n\nTask: <full task description>\n\nCreate a comprehensive implementation plan. Include:\n- Requirements Summary\n- Acceptance Criteria (testable, 90%+ concrete)\n- Implementation Steps (with file references, 80%+ claims cite file/line)\n- Risks and Mitigations\n- Verification Steps\n\nProduce a compact executive summary (3-5 bullets) at the top for review.\nReturn the full plan and the compact summary."
+  description="Create consensus plan",
+  prompt="You are the Planner in a consensus planning flow.\n\nTask: <full task description>\n\nRevision instructions (if any): <revision_instructions>\n\nCreate a comprehensive implementation plan. Include:\n- Requirements Summary\n- Acceptance Criteria (testable, 90%+ concrete)\n- Implementation Steps (with file references, 80%+ claims cite file/line)\n- Risks and Mitigations\n- Verification Steps\n\nRevision history:\n<revision_history>\n\nProduce a compact executive summary (3-5 bullets) at the top for review.\nReturn the full plan and the compact summary."
 )
 ```
 
@@ -74,6 +75,7 @@ Spawn the Architect subagent to review the Planner's plan for architectural soun
 ```
 Agent(
   subagent_type="coder",
+  description="Review architecture soundness",
   prompt="You are the Architect reviewer in a consensus planning flow.\n\nReview the following plan for architectural soundness. Provide:\n1. Verdict: APPROVE / ITERATE / REJECT\n2. Steelman antithesis (strongest counter-argument to the plan)\n3. At least one real trade-off tension\n4. Synthesis and specific improvements if ITERATE or REJECT\n\nPlan:\n<insert full plan from Step 1>"
 )
 ```
@@ -82,6 +84,13 @@ Wait for the Architect result. Do not proceed until it returns.
 
 > **Important:** Do NOT issue the Critic call in the same turn. Architect MUST complete first.
 
+### Step 3.5 — Architect Pre-Review Gate
+
+- Spawn an `architect` subagent with the current plan draft and request a verdict of APPROVE, ITERATE, or REJECT before applying the routing rules below.
+- **APPROVE**: Proceed to Step 4.
+- **ITERATE**: Route to Step 5a.
+- **REJECT**: Route to Step 5b (early termination). Record the Architect rejection rationale for the termination summary.
+
 ### Step 4 — Delegate to Critic
 
 Spawn the Critic subagent to evaluate the plan against quality criteria.
@@ -89,21 +98,32 @@ Spawn the Critic subagent to evaluate the plan against quality criteria.
 ```
 Agent(
   subagent_type="coder",
+  description="Critique plan quality",
   prompt="You are the Critic in a consensus planning flow.\n\nEvaluate the following plan against these quality criteria:\n- 90%+ acceptance criteria are testable and concrete\n- 80%+ implementation claims cite specific files/lines\n- All risks have mitigations\n- No vague terms without metrics (e.g. 'fast' must become 'p99 < 200ms')\n- Architecture is sound (Architect verdict considered)\n\nProvide:\n1. Verdict: APPROVED / REVISE / REJECT\n2. Specific feedback with line-item references\n3. Actionable improvements\n\nPlan:\n<insert full plan from Step 1>\n\nArchitect review:\n<insert Architect verdict and feedback from Step 3>"
 )
 ```
 
 Wait for the Critic result. Do not proceed until it returns.
 
-### Step 5 — Re-review loop (max 5 iterations)
+### Step 5 — Consensus Loop (maximum of 5 revision cycles)
 
-If Critic verdict is REVISE or REJECT:
-1. Collect Critic feedback.
-2. Return to Step 1, appending the Architect + Critic feedback to the Planner prompt as revision instructions.
-3. Re-run Steps 3 and 4 with the revised plan.
-4. Stop after 5 total iterations and present the best version.
+**Iteration counter:** Initialize to 1 before the first Planner call. Increment by 1 each time the Planner is re-invoked with revision instructions. After each increment, write the current counter value to `.omk/drafts/ralplan-cycle-counter.txt` and read it at the start of each round to enforce the max-cycle check. The default maximum is 5; this threshold is configurable (e.g., `RALPLAN_MAX_CYCLES`).
 
-If Critic verdict is APPROVED, proceed to Step 6.
+#### 5a. Revision path
+
+If the Critic verdict is REVISE or REJECT, or if the Architect Pre-Review Gate routed an ITERATE verdict here:
+
+1. Collect the relevant feedback (Critic and/or Architect).
+2. **Replace** (do not append) the `<revision_instructions>` placeholder in the Step 1 Planner prompt with the new revision instructions.
+3. Preserve prior revision history by appending the superseded instructions to the `<revision_history>` placeholder.
+4. After placeholder substitution, return to Step 2 and re-run Steps 3, 3.5, and 4.
+5. If the iteration counter equals 5, route to Step 5b instead of returning to Step 1.
+6. **Feedback compaction guard**: If the current cycle's feedback payload intended for the `<revision_instructions>` placeholder exceeds 2000 tokens, spawn a `coder` subagent with prompt "Summarize the following feedback into under 2000 tokens while preserving all actionable items and line references:" and use the summary as the new revision instructions.
+7. **Compaction failure fallback**: If the compaction subagent invocation times out or errors, fall back to uncompressed feedback and emit a warning.
+
+#### 5b. Termination
+
+If the consensus loop reaches the maximum of 5 revision cycles without Critic approval, or if the Architect Pre-Review Gate routes a REJECT verdict here, stop iterating and present the best available plan version. On REJECT, include the Architect rejection rationale in the termination summary. Stop the workflow here. Do not proceed to Step 6 or execution handoff.
 
 ### Step 6 — Save plan and STOP
 

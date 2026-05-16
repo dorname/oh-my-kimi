@@ -84,15 +84,15 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
 
 3. **Implement the current story**:
    - Delegate to specialist agents:
-     - Simple lookups: `Agent(subagent_type="explore", prompt="...")`
-     - Standard work: `Agent(subagent_type="coder", prompt="...")`
-     - Complex analysis: `Agent(subagent_type="coder", prompt="...")`
+     - Simple lookups: `Agent(subagent_type="explore", description="Explore codebase", prompt="...")`
+     - Standard work: `Agent(subagent_type="coder", description="Implement standard work", prompt="...")`
+     - Complex analysis: `Agent(subagent_type="coder", description="Perform complex analysis", prompt="...")`
    - If during implementation you discover sub-tasks, add them as new stories to `prd.json`
    - Run long operations in background: Builds, installs, test suites use `run_in_background: true`
 
 4. **Verify the current story's acceptance criteria**:
    a. For EACH acceptance criterion in the story, verify it is met with fresh evidence
-   b. Run relevant checks (test, build, lint, typecheck) and read the output
+   b. Execute the `verify` Skill to run the canonical validation checklist and read the output
    c. If any criterion is NOT met, continue working — do NOT mark the story as complete
 
 5. **Mark story complete**:
@@ -106,9 +106,9 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
    c. If ALL complete, proceed to Step 7 (reviewer verification)
 
 7. **Reviewer verification** (tiered, against acceptance criteria):
-   - <5 files, <100 lines with full tests: delegate to `Agent(subagent_type="coder", prompt="...")`
-   - Standard changes: delegate to `Agent(subagent_type="coder", prompt="...")`
-   - >20 files or security/architectural changes: delegate to `Agent(subagent_type="coder", prompt="...")`
+   - <5 files, <100 lines with full tests: delegate to `Agent(subagent_type="verifier", description="Verify small change", prompt="...")`
+   - Standard changes: delegate to `Agent(subagent_type="verifier", description="Verify standard change", prompt="...")`
+   - >20 files or security/architectural changes: delegate to `Agent(subagent_type="verifier", description="Verify large change", prompt="...")`
    - Ralph floor: always at least STANDARD verification, even for small changes
    - The selected reviewer verifies against the SPECIFIC acceptance criteria from prd.json
    - **On APPROVAL: immediately proceed to Step 7.5. Do NOT pause to report the verdict to the user.**
@@ -118,9 +118,9 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
    - Keep the scope bounded to the Ralph changed-file set.
 
 7.6 **Regression Re-verification**:
-   - After the deslop pass, re-run all relevant tests, build, and lint checks.
+   - After the deslop pass, execute the `verify` Skill to run regression validation.
    - Read the output and confirm the post-deslop regression run actually passes.
-   - Only proceed to completion after the post-deslop regression run passes.
+   - Only proceed to completion after the `verify` run passes.
 
 8. **On approval**: After Step 7.6 passes, run `cancel` skill to cleanly exit and clean up state files.
 
@@ -128,9 +128,9 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="coder", ...)` for architect verification when changes are security-sensitive or architectural
-- Use `Agent(subagent_type="coder", ...)` when `--critic=critic`
-- Use `Agent(subagent_type="coder", ...)` for lightweight verification of small changes
+- Use `Agent(subagent_type="verifier", description="Architect verification", ...)` for architect verification when changes are security-sensitive or architectural
+- Use `Agent(subagent_type="verifier", description="Critic verification", ...)` when `--critic=critic`
+- Use `Agent(subagent_type="verifier", description="Lightweight verification", ...)` for lightweight verification of small changes
 - Skip architect consultation for simple feature additions, well-tested changes, or time-critical verification
 - Proceed with verification alone — never block on unavailable tools
 - Use ReadFile/WriteFile for prd.json and progress.md
@@ -176,10 +176,8 @@ Ralph state is stored in `.omk/state/ralph-state.json`:
 - [ ] prd.json acceptance criteria are task-specific (not generic boilerplate)
 - [ ] All requirements from the original task are met (no scope reduction)
 - [ ] Zero pending TODO items
-- [ ] Fresh test run output shows all tests pass
-- [ ] Fresh build output shows success
+- [ ] `verify` Skill executed and passed (build, tests, lint, typecheck, regression)
 - [ ] progress.md records implementation details and learnings
 - [ ] Selected reviewer verification passed against specific acceptance criteria
 - [ ] ai-slop-cleaner pass completed on changed files (or `--no-deslop` specified)
-- [ ] Post-deslop regression tests pass
 - [ ] `cancel` skill run for clean state cleanup

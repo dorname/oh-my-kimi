@@ -6,7 +6,6 @@ metadata:
   - plan this
   - plan the
   - let's plan
-  - plan
   - review this plan
 ---
 
@@ -88,7 +87,7 @@ Plan creates comprehensive, actionable work plans through intelligent interactio
 
 1. **Delegate to Planner** — Create initial plan and compact summary
    ```
-   Agent(subagent_type="plan", prompt="You are the Planner in a consensus planning flow.\n\nTask: <task>\n\nCreate a comprehensive implementation plan with: Requirements Summary, Acceptance Criteria (testable), Implementation Steps (with file references), Risks and Mitigations, Verification Steps.\n\nInclude a compact executive summary (3-5 bullets) at the top.")
+   Agent(subagent_type="plan", description="Create consensus plan", prompt="You are the Planner in a consensus planning flow.\n\nTask: <task>\n\nCreate a comprehensive implementation plan with: Requirements Summary, Acceptance Criteria (testable), Implementation Steps (with file references), Risks and Mitigations, Verification Steps.\n\nInclude a compact executive summary (3-5 bullets) at the top.")
    ```
    Wait for Planner result before proceeding.
 
@@ -96,13 +95,13 @@ Plan creates comprehensive, actionable work plans through intelligent interactio
 
 3. **Delegate to Architect** — Review for architectural soundness
    ```
-   Agent(subagent_type="coder", prompt="You are the Architect reviewer.\n\nReview this plan for architectural soundness. Provide verdict APPROVE/ITERATE/REJECT, strongest steelman antithesis, at least one real trade-off tension, and synthesis.\n\nPlan:\n<plan from Step 1>")
+   Agent(subagent_type="coder", description="Review plan architecture", prompt="You are the Architect reviewer.\n\nReview this plan for architectural soundness. Provide verdict APPROVE/ITERATE/REJECT, strongest steelman antithesis, at least one real trade-off tension, and synthesis.\n\nPlan:\n<plan from Step 1>")
    ```
    Wait for Architect result before proceeding.
 
 4. **Delegate to Critic** — Evaluate against quality criteria
    ```
-   Agent(subagent_type="coder", prompt="You are the Critic.\n\nEvaluate this plan against quality criteria: 90%+ testable acceptance criteria, 80%+ claims cite files/lines, all risks have mitigations, no vague terms without metrics.\n\nProvide verdict APPROVED/REVISE/REJECT and specific feedback.\n\nPlan:\n<plan from Step 1>\n\nArchitect review:\n<architect feedback from Step 3>")
+   Agent(subagent_type="coder", description="Evaluate plan quality", prompt="You are the Critic.\n\nEvaluate this plan against quality criteria: 90%+ testable acceptance criteria, 80%+ claims cite files/lines, all risks have mitigations, no vague terms without metrics.\n\nProvide verdict APPROVED/REVISE/REJECT and specific feedback.\n\nPlan:\n<plan from Step 1>\n\nArchitect review:\n<architect feedback from Step 3>")
    ```
    Wait for Critic result before proceeding.
 
@@ -119,7 +118,7 @@ Plan creates comprehensive, actionable work plans through intelligent interactio
 ### Review Mode (`--review`)
 
 1. Read plan file from `.omk/plans/`
-2. Evaluate via Critic using `Agent(subagent_type="coder", ...)`
+2. Evaluate via Critic using `Agent(subagent_type="coder", description="Review existing plan", ...)`
 3. Return verdict: APPROVED, REVISE (with specific feedback), or REJECT
 
 ## Plan Output Format
@@ -137,9 +136,9 @@ Plans are saved to `.omk/plans/`. Drafts go to `.omk/drafts/`.
 
 - Use `AskUserQuestion` for preference questions (scope, priority, timeline, risk tolerance)
 - Use `explore` agent to gather codebase facts before asking the user
-- Use `Agent(subagent_type="plan", ...)` for planning validation on large-scope plans
-- Use `Agent(subagent_type="coder", ...)` for requirements analysis
-- Use `Agent(subagent_type="coder", ...)` for plan review in consensus and review modes
+- Use `Agent(subagent_type="plan", description="Validate large plan", ...)` for planning validation on large-scope plans
+- Use `Agent(subagent_type="coder", description="Analyze requirements", ...)` for requirements analysis
+- Use `Agent(subagent_type="coder", description="Review plan quality", ...)` for plan review in consensus and review modes
 - **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** Always await the Architect result before issuing the Critic Task.
 
 ## Examples

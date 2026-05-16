@@ -19,6 +19,10 @@ Persistent markdown knowledge base that compounds across sessions.
 - User says "wiki" or wants to query past knowledge
 - Need a project-specific knowledge repository
 
+## Do Not Use When
+
+- You are unsure where knowledge should go (wiki, memory, or elsewhere) — use `remember` first for routing decisions.
+
 ## Commands
 
 | Command | Action |

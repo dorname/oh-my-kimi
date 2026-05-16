@@ -19,6 +19,10 @@ Review reusable project knowledge and decide what belongs in project memory, not
 - User says "remember this" or wants to save findings
 - Need to decide where knowledge should live (memory vs docs)
 
+## Do Not Use When
+
+- You have already determined that knowledge belongs in `.omk/wiki/` — use the `wiki` skill directly instead of this skill.
+
 ## Decision Tree
 
 | Knowledge Type | Destination | Why |

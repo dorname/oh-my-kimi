@@ -2,15 +2,6 @@
 .omk/
 .kimi/
 
-.scripts/__pycache__/
-.scripts/venv/
-.scripts/venv/*
-.scripts/venv/.*
-.scripts/venv/bin/
-.scripts/venv/bin/*
-.scripts/venv/bin/.*
-.scripts/venv/bin/activate
-
 # Python build artifacts
 *.egg-info/
 __pycache__/
@@ -19,6 +10,9 @@ __pycache__/
 build/
 dist/
 .eggs/
+
+scripts/__pycache__
+
 
 # Virtual environments
 venv/

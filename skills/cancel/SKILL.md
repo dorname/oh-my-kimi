@@ -4,7 +4,6 @@ description: Cancel any active OMK mode (autopilot, ralph, ultrawork, ultraqa, t
 metadata:
   triggers:
   - cancel
-  - stop
   - abort
 ---
 

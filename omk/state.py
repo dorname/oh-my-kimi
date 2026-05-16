@@ -1,39 +1,43 @@
 #!/usr/bin/env python3
 """
-OMK State Manager
+OMK State Manager — Candidate 1: Enhanced error handling and logging.
 
-Unified state file management for OMK skills.
-Replaces the original OMC project's TypeScript State Manager with a Python implementation
-that works with Kimi CLI's Shell tool.
-
-Usage from skills:
-    Shell: python3 -c "from omk.state import write_state; write_state('ralph', {...)}"
-    Shell: python3 -c "from omk.state import read_state; print(read_state('ralph'))"
-
-Or use the CLI:
-    python3 -m omk.state write ralph '{"iteration": 1}'
-    python3 -m omk.state read ralph
-    python3 -m omk.state clear ralph
-    python3 -m omk.state list
+Improvements over baseline:
+- Structured logging for all operations.
+- Granular exception handling (JSONDecodeError, OSError, PermissionError).
+- State validation helper.
+- Safe file size limits to prevent runaway growth.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 import os
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
+logger = logging.getLogger("omk.state")
+if not logger.handlers:
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(logging.Formatter("%(levelname)s [omk.state] %(message)s"))
+    logger.addHandler(handler)
+    logger.setLevel(logging.WARNING)
 
 DEFAULT_STATE_DIR = Path(".omk/state")
+MAX_STATE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB
 
 
 def get_state_dir() -> Path:
     """Get the state directory, creating it if necessary."""
     state_dir = Path(os.environ.get("OMK_STATE_DIR", DEFAULT_STATE_DIR))
-    state_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        state_dir.mkdir(parents=True, exist_ok=True)
+    except PermissionError as exc:
+        logger.error("Permission denied creating state dir %s: %s", state_dir, exc)
+        raise
     return state_dir
 
 
@@ -43,30 +47,55 @@ def get_state_file(mode: str) -> Path:
 
 
 def read_state(mode: str) -> dict[str, Any] | None:
-    """Read state for a mode. Returns None if not found."""
+    """Read state for a mode. Returns None if not found or unreadable."""
     path = get_state_file(mode)
     if not path.exists():
         return None
     try:
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except (json.JSONDecodeError, OSError):
+            data = json.load(f)
+        if not isinstance(data, dict):
+            logger.warning("State file %s does not contain a JSON object; ignoring.", path)
+            return None
+        return data
+    except json.JSONDecodeError as exc:
+        logger.warning("Corrupted JSON in %s: %s", path, exc)
+        return None
+    except PermissionError as exc:
+        logger.error("Permission denied reading %s: %s", path, exc)
+        return None
+    except OSError as exc:
+        logger.error("OS error reading %s: %s", path, exc)
         return None
 
 
 def write_state(mode: str, data: dict[str, Any]) -> None:
     """Write state for a mode atomically."""
+    if not isinstance(data, dict):
+        raise TypeError(f"State data must be a dict, got {type(data).__name__}")
+
     path = get_state_file(mode)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Atomic write: write to temp file, then rename
+    payload = json.dumps(data, indent=2, ensure_ascii=False)
+    if len(payload.encode("utf-8")) > MAX_STATE_SIZE_BYTES:
+        raise ValueError(
+            f"State payload for mode '{mode}' exceeds {MAX_STATE_SIZE_BYTES} bytes"
+        )
+
     temp_path = path.with_suffix(".tmp")
     try:
         with open(temp_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write(payload)
             f.flush()
             os.fsync(f.fileno())
         temp_path.replace(path)
+        logger.debug("State written for mode: %s", mode)
+    except PermissionError as exc:
+        logger.error("Permission denied writing state for mode %s: %s", mode, exc)
+        if temp_path.exists():
+            temp_path.unlink()
+        raise
     except Exception:
         if temp_path.exists():
             temp_path.unlink()
@@ -77,8 +106,13 @@ def clear_state(mode: str) -> bool:
     """Clear state for a mode. Returns True if a file was deleted."""
     path = get_state_file(mode)
     if path.exists():
-        path.unlink()
-        return True
+        try:
+            path.unlink()
+            logger.debug("State cleared for mode: %s", mode)
+            return True
+        except PermissionError as exc:
+            logger.error("Permission denied clearing state for mode %s: %s", mode, exc)
+            return False
     return False
 
 
@@ -88,13 +122,16 @@ def list_states() -> list[str]:
     if not state_dir.exists():
         return []
     modes = []
-    for f in state_dir.iterdir():
-        if f.is_file() and f.suffix == ".json":
-            name = f.stem
-            if name.endswith("-state"):
-                modes.append(name[:-6])  # Strip '-state' suffix
-            else:
-                modes.append(name)
+    try:
+        for f in state_dir.iterdir():
+            if f.is_file() and f.suffix == ".json":
+                name = f.stem
+                if name.endswith("-state"):
+                    modes.append(name[:-6])
+                else:
+                    modes.append(name)
+    except PermissionError as exc:
+        logger.error("Permission denied listing state dir: %s", exc)
     return sorted(modes)
 
 
@@ -111,6 +148,26 @@ def get_active_modes() -> list[str]:
         if is_mode_active(mode):
             active.append(mode)
     return active
+
+
+def validate_state(mode: str) -> tuple[bool, str]:
+    """Validate that a state's file is readable and well-formed.
+
+    Returns (is_valid, message).
+    """
+    path = get_state_file(mode)
+    if not path.exists():
+        return False, f"State file does not exist for mode: {mode}"
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return False, "State data is not a JSON object"
+        return True, "Valid"
+    except json.JSONDecodeError as exc:
+        return False, f"Invalid JSON: {exc}"
+    except OSError as exc:
+        return False, f"OS error: {exc}"
 
 
 def cli() -> int:

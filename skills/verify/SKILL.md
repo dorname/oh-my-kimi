@@ -11,11 +11,14 @@ metadata:
 
 Verify that a change really works before claiming completion.
 
+> **Canonical Verification Entry Point**: This is the canonical validation Skill. All other Skills should invoke `verify` rather than inlining their own build/test/lint/typecheck checklists.
+
 ## Use When
 
 - Before claiming a task is complete
 - User explicitly asks for verification
 - After making changes that affect multiple files
+- When another Skill needs validation (e.g., `autopilot`, `ralph`, `ultraqa`, `team`, `ai-slop-cleaner`)
 
 ## Steps
 

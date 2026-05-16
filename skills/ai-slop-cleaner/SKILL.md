@@ -45,7 +45,7 @@ Clean AI-generated code slop with a regression-safe, deletion-first workflow.
    - Pass 3: Improve naming
    - Pass 4: Extract true duplication (only if it reduces complexity)
 
-4. **Verify**: Run tests after each pass
+4. **Verify**: Run tests after each pass. After the final pass, execute the `verify` Skill to run the canonical validation checklist.
 
 ## Tool Usage
 
@@ -53,9 +53,12 @@ Clean AI-generated code slop with a regression-safe, deletion-first workflow.
 - Use `WriteFile` and `StrReplaceFile` for changes
 - Use `Shell` for test runs
 
+## Verification
+
+After cleanup is complete, execute the `verify` Skill to run the canonical validation checklist.
+
 ## Final Checklist
 
-- [ ] All tests pass
 - [ ] Behavior is identical
 - [ ] Code is simpler than before
 - [ ] No new dependencies introduced

@@ -36,9 +36,9 @@ User: "team 3:executor fix all TypeScript errors"
         +-- Analyze & decompose task into subtasks
         |       -> explore/architect produces subtask list
         |
-        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 1") [parallel]
-        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 2") [parallel]
-        +-- Agent(subagent_type="coder", prompt="You are the Executor agent. Subtask 3") [parallel]
+        +-- Agent(subagent_type="coder", description="Execute subtask one", prompt="You are the Executor agent. Subtask 1") [parallel]
+        +-- Agent(subagent_type="coder", description="Execute subtask two", prompt="You are the Executor agent. Subtask 2") [parallel]
+        +-- Agent(subagent_type="coder", description="Execute subtask three", prompt="You are the Executor agent. Subtask 3") [parallel]
         |
         +-- Collect results, verify, report
 ```
@@ -88,9 +88,9 @@ Write task list to `.omk/state/team-tasks.json`.
 Launch all parallel-safe subtasks simultaneously using `Agent` tool:
 
 ```
-Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/auth/login.ts: ...")
-Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/api/users.ts: ...")
-Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors in src/utils/helpers.ts: ...")
+Agent(subagent_type="coder", description="Fix auth type errors", prompt="You are the Executor agent. Fix type errors in src/auth/login.ts: ...")
+Agent(subagent_type="coder", description="Fix API type errors", prompt="You are the Executor agent. Fix type errors in src/api/users.ts: ...")
+Agent(subagent_type="coder", description="Fix helper type errors", prompt="You are the Executor agent. Fix type errors in src/utils/helpers.ts: ...")
 ```
 
 **Key rules:**
@@ -108,8 +108,11 @@ Agent(subagent_type="coder", prompt="You are the Executor agent. Fix type errors
 
 When all agents complete:
 
-1. Run build/test/lint to verify no regressions
-2. Delegate to `verifier` agent for completion check
+1. Execute the `verify` Skill to verify no regressions
+2. Delegate to verifier agent:
+   ```
+   Agent(subagent_type="verifier", description="Verify completion and regressions", prompt="Verify all subtask results are complete and check for regressions. Run build/test/lint and report any issues.")
+   ```
 3. For security/auth changes: add `security-reviewer`
 4. For large changes (>20 files): add `code-reviewer`
 

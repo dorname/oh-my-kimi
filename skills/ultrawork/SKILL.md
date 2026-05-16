@@ -5,7 +5,6 @@ metadata:
   triggers:
   - ultrawork
   - ulw
-  - parallel
 ---
 
 # Ultrawork
@@ -35,9 +34,9 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 
 1. **Classify tasks by independence**: Identify which tasks can run in parallel vs which have dependencies
 2. **Route to correct complexity**:
-   - Simple lookups/definitions: `Agent(subagent_type="explore", prompt="...")`
-   - Standard implementation: `Agent(subagent_type="coder", prompt="...")`
-   - Complex analysis/refactoring: `Agent(subagent_type="coder", prompt="...")`
+   - Simple lookups/definitions: `Agent(subagent_type="explore", description="Explore codebase", prompt="...")`
+   - Standard implementation: `Agent(subagent_type="coder", description="Implement standard task", prompt="...")`
+   - Complex analysis/refactoring: `Agent(subagent_type="coder", description="Perform complex refactoring", prompt="...")`
 3. **Fire independent tasks simultaneously**: Launch all parallel-safe tasks at once
 4. **Run dependent tasks sequentially**: Wait for prerequisites before launching dependent work
 5. **Background long operations**: Builds, installs, and test suites use `run_in_background=true`
@@ -48,9 +47,9 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 
 ## Tool Usage
 
-- Use `Agent(subagent_type="coder", ...)` for implementation tasks
-- Use `Agent(subagent_type="explore", ...)` for simple lookups and codebase search
-- Use `Agent(subagent_type="coder", ...)` for complex analysis and refactoring
+- Use `Agent(subagent_type="coder", description="Run implementation task", ...)` for implementation tasks
+- Use `Agent(subagent_type="explore", description="Explore codebase", ...)` for simple lookups and codebase search
+- Use `Agent(subagent_type="coder", description="Run complex analysis", ...)` for complex analysis and refactoring
 - Use `run_in_background=true` for package installs, builds, and test suites
 - Use foreground execution for quick status checks and file operations
 
@@ -58,15 +57,15 @@ Ultrawork is a parallel execution engine that runs multiple agents simultaneousl
 
 **Good** — Three independent tasks fired simultaneously:
 ```
-Agent(subagent_type="coder", prompt="Add missing type export for Config interface")
-Agent(subagent_type="coder", prompt="You are the Executor agent. Implement the /api/users endpoint with validation")
-Agent(subagent_type="coder", prompt="You are the Executor agent. Add integration tests for the auth middleware")
+Agent(subagent_type="coder", description="Add missing type export", prompt="Add missing type export for Config interface")
+Agent(subagent_type="coder", description="Implement users endpoint", prompt="You are the Executor agent. Implement the /api/users endpoint with validation")
+Agent(subagent_type="coder", description="Add auth middleware tests", prompt="You are the Executor agent. Add integration tests for the auth middleware")
 ```
 
 **Good** — Background execution:
 ```
-Agent(subagent_type="coder", prompt="You are the Executor agent. Npm install && npm run build", run_in_background=true)
-Agent(subagent_type="coder", prompt="Update the README with new API endpoints")
+Agent(subagent_type="coder", description="Build project in background", prompt="You are the Executor agent. Npm install && npm run build", run_in_background=true)
+Agent(subagent_type="coder", description="Update README docs", prompt="Update the README with new API endpoints")
 ```
 
 **Bad** — Sequential execution of independent work:

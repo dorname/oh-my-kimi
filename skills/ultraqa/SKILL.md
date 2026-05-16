@@ -51,9 +51,6 @@ UltraQA state in `.omk/state/ultraqa-state.json`:
 - Use `ReadFile` to inspect test output
 - Delegate to `test-engineer` agent for test strategy
 
-## Final Checklist
+## Verification
 
-- [ ] All tests pass
-- [ ] Build succeeds
-- [ ] Lint clean
-- [ ] No recurring errors across cycles
+When the QA cycle completes, execute the `verify` Skill to run the canonical validation checklist.

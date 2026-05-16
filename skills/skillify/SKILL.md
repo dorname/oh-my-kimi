@@ -6,6 +6,9 @@ metadata:
   triggers:
   - skillify
   - make skill
+  - learner
+  - extract skill
+  - learn from this
 ---
 
 # Skillify
